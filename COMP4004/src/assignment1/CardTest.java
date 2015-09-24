@@ -11,11 +11,13 @@ public class CardTest {
 		Card aCard = new Card(2,Card.Suits.DIAMONDS);
 		assertEquals(2,aCard.getRank());
 	}
+	@Test
 	public void testGetSuit() {
 		Card spadesCard = new Card(3,Card.Suits.SPADES);
-		assertEquals(Card.SPADES,spadesCard.getSuit());
+		assertEquals(Card.Suits.SPADES,spadesCard.getSuit());
 	}
-	publci void testPrintCard() {
+	@Test
+	public void testPrintCard() {
 		Card aCard = new Card(4,Card.Suits.CLUBS);
 		assertEquals("FourClubs",aCard.print());
 	}
