@@ -1,19 +1,19 @@
 package assignment1;
 
 public class Card {
-	public enum Suits { CLUBS, DIAMONDS, SPADES, HEARTS }
+	public enum Suit { CLUBS, DIAMONDS, SPADES, HEARTS }
 	
 	private int rank;
-	private Suits suit;
+	private Suit suit;
 	
-	public Card(int r, Suits s){
+	public Card(int r, Suit s){
 		rank = r;
 		suit = s;
 	}
 	
 	//Getters
 	public int getRank() { return rank;	}
-	public Suits getSuit() { return suit; }
+	public Suit getSuit() { return suit; }
 	private String rankToWord(int r) {
 		String[] rankToWord = {
 				"Two",
@@ -33,7 +33,7 @@ public class Card {
 		
 		return rankToWord[r - 2];
 	}
-	private String suitToWord(Suits s) {
+	private String suitToWord(Suit s) {
 		switch(s) {
 		case SPADES:
 			return "Spades";
