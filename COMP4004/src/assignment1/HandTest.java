@@ -18,10 +18,10 @@ public class HandTest {
 		
 		
 		for(int i=0; i<5; i++) {
-			assertFalse(aHand.isComplete(), "hand should not be complete");
+			assertFalse(aHand.isComplete());
 			aHand.addCard(cards.remove(0));
 		}
-		assertTrue(aHand.isComplete(), "hand should be complete");
+		assertTrue(aHand.isComplete());
 		
 		try {
 			aHand.addCard(cards.remove(0));
@@ -38,7 +38,7 @@ public class HandTest {
 		aHand.addCard(Card.Rank.ACE,Card.Suit.SPADES);
 		aHand.addCard(Card.Rank.FOUR,Card.Suit.HEARTS);
 		aHand.addCard(Card.Rank.THREE,Card.Suit.HEARTS);
-		assertFalse(aHand.addCard(Card.Rank.ACE,Card.Suit.SPADES), "should not be able to add duplicate cards");		
+		assertFalse(aHand.addCard(Card.Rank.ACE,Card.Suit.SPADES));		
 	}
 	
 	@Test (expected = Exception.class)
@@ -63,14 +63,14 @@ public class HandTest {
 		Hand onePairHand = new Hand();
 		Hand highCardHand = new Hand();
 		
-		assertTrue(highCardHand < onePairHand);
-		assertTrue(onePairHand < twoPairHand);
-		assertTrue(threeOfAKindHand < straightHand);
-		assertTrue(straightHand < flushHand);
-		assertTrue(flushHand < fullHouseHand);
-		assertTrue(fullHouseHand < fourOfAKindHand);
-		assertTrue(fourOfAKindHand < straightFlushHand);
-		assertTrue(straightFlushHand < royalFlushHand);
+		assertEquals(2,highCardHand.compareTo(onePairHand));
+		assertEquals(2,onePairHand.compareTo(twoPairHand));
+		assertEquals(2,threeOfAKindHand.compareTo(straightHand));
+		assertEquals(2,straightHand.compareTo(flushHand));
+		assertEquals(2,flushHand.compareTo(fullHouseHand));
+		assertEquals(2,fullHouseHand.compareTo(fourOfAKindHand));
+		assertEquals(2,fourOfAKindHand.compareTo(straightFlushHand));
+		assertEquals(2,straightFlushHand.compareTo(royalFlushHand));
 	}
 		
 	@Test
@@ -79,11 +79,11 @@ public class HandTest {
 		
 		aHand.setID(2);
 		
-		aHand.addCard("TwoHearts");
-		aHand.addCard("FiveClubs");
-		aHand.addCard("KingSpades");
-		aHand.addCard("ThreeClubs");
-		aHand.addCard("TenDiamonds");
+		aHand.addCard(Card.Rank.TWO,Card.Suit.HEARTS);
+		aHand.addCard(Card.Rank.FIVE,Card.Suit.CLUBS);
+		aHand.addCard(Card.Rank.KING,Card.Suit.SPADES);
+		aHand.addCard(Card.Rank.THREE,Card.Suit.CLUBS);
+		aHand.addCard(Card.Rank.TEN,Card.Suit.DIAMONDS);
 		
 		assertEquals("2 TwoHearts FiveClubs KingSpades ThreeClubs TenDiamonds", aHand.toString());
 	}
@@ -92,11 +92,12 @@ public class HandTest {
 	public void testParseHand() {
 		Hand aHand = new Hand();
 		aHand.setID(3);
-		aHand.addCard("TwoHearts");
-		aHand.addCard("FiveClubs");
-		aHand.addCard("KingSpades");
-		aHand.addCard("ThreeClubs");
-		aHand.addCard("TenDiamonds");
+		
+		aHand.addCard(Card.Rank.TWO,Card.Suit.HEARTS);
+		aHand.addCard(Card.Rank.FIVE,Card.Suit.CLUBS);
+		aHand.addCard(Card.Rank.KING,Card.Suit.SPADES);
+		aHand.addCard(Card.Rank.THREE,Card.Suit.CLUBS);
+		aHand.addCard(Card.Rank.TEN,Card.Suit.DIAMONDS);
 		
 		assertEquals(3,aHand.getID());
 		assertEquals("TwoHearts",aHand.getCard1());
