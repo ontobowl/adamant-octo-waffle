@@ -38,8 +38,8 @@ public class CardTest {
 	public void testParseCardFromString() {
 		String s1 = "TwoSpades";
 		Card c = Card.parseCardFromString(s1);
-		assertTrue(Card.Rank.TWO,c.getRank());
-		assertTrue(Card.Suit.SPADES,c.getSuit());
+		assertEquals(Card.Rank.TWO,c.getRank());
+		assertEquals(Card.Suit.SPADES,c.getSuit());
 	}
 	@Test
 	public void testCardEquals() {
