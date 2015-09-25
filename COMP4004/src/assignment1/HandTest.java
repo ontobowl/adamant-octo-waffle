@@ -12,7 +12,7 @@ public class HandTest {
 
 	@Test
 	public void testNumCards() {
-		Hand aHand = new Hand(1);
+		Hand aHand = new Hand();
 		
 		List<Card> cards = makeDeck();
 		
@@ -26,14 +26,14 @@ public class HandTest {
 		try {
 			aHand.addCard(cards.remove(0));
 		}
-		catch(HandException e) {
+		catch(Exception e) {
 			fail("hand exception");
 		}
 	}
 	
 	@Test
 	public void testDuplicateCard() {
-		Hand aHand = new Hand(1);
+		Hand aHand = new Hand();
 		aHand.addCard(Card.Rank.JACK,Card.Suit.CLUBS);
 		aHand.addCard(Card.Rank.ACE,Card.Suit.SPADES);
 		aHand.addCard(Card.Rank.FOUR,Card.Suit.HEARTS);
@@ -41,24 +41,27 @@ public class HandTest {
 		assertFalse(aHand.addCard(Card.Rank.ACE,Card.Suit.SPADES), "should not be able to add duplicate cards");		
 	}
 	
-	@Test (expected = InvalidIDException.class)
+	@Test (expected = Exception.class)
 	public void testInvalidID() {	//fails if player ID is not in the range [1,4]
-			Hand highHand = new Hand(5);
-			Hand lowHand = new Hand(0);
+			Hand highHand = new Hand();
+			Hand lowHand = new Hand();
+			
+			highHand.setID(5);
+			lowHand.setID(0);
 	}
 	
 	@Test
 	public void testHandCompare() {
-		Hand royalFlushHand = new Hand(1);
-		Hand straightFlushHand = new Hand(1);
-		Hand fourOfAKindHand = new Hand(1);
-		Hand fullHouseHand = new Hand(1);
-		Hand flushHand = new Hand(1);
-		Hand straightHand = new Hand(1);
-		Hand threeOfAKindHand = new Hand(1);
-		Hand twoPairHand = new Hand(1);
-		Hand onePairHand = new Hand(1);
-		Hand highCardHand = new Hand(1);
+		Hand royalFlushHand = new Hand();
+		Hand straightFlushHand = new Hand();
+		Hand fourOfAKindHand = new Hand();
+		Hand fullHouseHand = new Hand();
+		Hand flushHand = new Hand();
+		Hand straightHand = new Hand();
+		Hand threeOfAKindHand = new Hand();
+		Hand twoPairHand = new Hand();
+		Hand onePairHand = new Hand();
+		Hand highCardHand = new Hand();
 		
 		assertTrue(highCardHand < onePairHand);
 		assertTrue(onePairHand < twoPairHand);
@@ -72,7 +75,10 @@ public class HandTest {
 		
 	@Test
 	public void testHandToString() {
-		Hand aHand = new Hand(2);
+		Hand aHand = new Hand();
+		
+		aHand.setID(2);
+		
 		aHand.addCard("TwoHearts");
 		aHand.addCard("FiveClubs");
 		aHand.addCard("KingSpades");
@@ -81,6 +87,26 @@ public class HandTest {
 		
 		assertEquals("2 TwoHearts FiveClubs KingSpades ThreeClubs TenDiamonds", aHand.toString());
 	}
+	
+	@Test
+	public void testParseHand() {
+		Hand aHand = new Hand();
+		aHand.setID(3);
+		aHand.addCard("TwoHearts");
+		aHand.addCard("FiveClubs");
+		aHand.addCard("KingSpades");
+		aHand.addCard("ThreeClubs");
+		aHand.addCard("TenDiamonds");
+		
+		assertEquals(3,aHand.getID());
+		assertEquals("TwoHearts",aHand.getCard1());
+		assertEquals("FiveClubs",aHand.getCard2());
+		assertEquals("KingSpades",aHand.getCard3());
+		assertEquals("ThreeClubs",aHand.getCard4());
+		assertEquals("TenDiamonds",aHand.getCard5());
+		
+	}
+	
 	
 	private static List<Card> makeDeck() {
 		List<Card> cards = new ArrayList<Card>();
