@@ -44,10 +44,14 @@ public class Card {
 		return r + s;
 	}
 	
-	public Boolean equals(Card c) {
-		if(this.rank == c.getRank() && this.suit == c.getSuit())
-			return true;
-		else
-			return false;
+	public boolean equals(Object o) {
+		Card c = (Card) o;
+		if(o instanceof Card) {
+			if(this.rank == c.getRank() && this.suit == c.getSuit())
+				return true;
+			else
+				return false;
+		}
+		else return false;
 	}
 }
