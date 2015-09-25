@@ -54,25 +54,59 @@ public class HandTest {
 	
 	@Test
 	public void testHandCompare() {
-		Hand royalFlushHand = new Hand("1 TenHearts JackHearts QueenHearts KingHearts AceHearts");
-		Hand straightFlushHand = new Hand("1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs");
-		Hand fourOfAKindHand = new Hand("3 TwoClubs TwoHearts TwoSpades TwoDiamonds FiveClubs");
-		Hand fullHouseHand = new Hand("2 AceHearts AceClubs AceSpades KingDiamonds KingHearts");
-		Hand flushHand = new Hand("1 AceClubs TenClubs FiveClubs ThreeClubs NineClubs");
-		Hand straightHand = new Hand("1 TwoClubs ThreeClubs FourSpades FiveClubs SixDiamonds");
-		Hand threeOfAKindHand = new Hand("4 TwoSpades TwoClubs KingHearts TwoHearts QueenDiamonds");
-		Hand twoPairHand = new Hand("2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds");
-		Hand onePairHand = new Hand("3 AceHearts AceDiamonds KingSpades FourClubs SixHearts");
-		Hand highCardHand = new Hand("1 AceHearts KingClubs QueenDiamonds JackClubs NineClubs");
+		Hand royalFlushHand1 = new Hand("1 TenHearts JackHearts QueenHearts KingHearts AceHearts");
+		Hand royalFlushHand2 = new Hand("1 TenSpades JackSpades QueenSpades KingSpades AceSpades");
 		
-		assertEquals(2,highCardHand.compareTo(onePairHand));
-		assertEquals(2,onePairHand.compareTo(twoPairHand));
-		assertEquals(2,threeOfAKindHand.compareTo(straightHand));
-		assertEquals(2,straightHand.compareTo(flushHand));
-		assertEquals(2,flushHand.compareTo(fullHouseHand));
-		assertEquals(2,fullHouseHand.compareTo(fourOfAKindHand));
-		assertEquals(2,fourOfAKindHand.compareTo(straightFlushHand));
-		assertEquals(2,straightFlushHand.compareTo(royalFlushHand));
+		Hand straightFlushHand1 = new Hand("1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs");
+		Hand straightFlushHand2 = new Hand("1 ThreeDiamonds FourDiamonds FiveDiamonds SixDiamonds SevenDiamonds");
+		
+		Hand fourOfAKindHand1 = new Hand("3 TwoClubs TwoHearts TwoSpades TwoDiamonds FiveClubs");
+		Hand fourOfAKindHand2 = new Hand("3 TwoClubs JackDiamonds TwoSpades TwoDiamonds TwoHearts");
+		
+		Hand fullHouseHand1 = new Hand("2 AceHearts AceClubs AceSpades KingDiamonds KingHearts");
+		Hand fullHouseHand2 = new Hand("2 AceHearts AceClubs KingSpades KingDiamonds KingHearts");
+
+		Hand flushHand1 = new Hand("1 AceClubs TenClubs FiveClubs ThreeClubs NineClubs");
+		Hand flushHand2 = new Hand("1 AceClubs TenClubs FourClubs ThreeClubs NineClubs");
+		
+		Hand straightHand1 = new Hand("1 TwoClubs ThreeClubs FourSpades FiveClubs SixDiamonds");
+		Hand straightHand2 = new Hand("1 SevenClubs ThreeClubs FourSpades FiveHearts SixDiamonds");
+
+		Hand threeOfAKindHand1 = new Hand("4 TwoSpades TwoClubs KingHearts TwoHearts QueenDiamonds");
+		Hand threeOfAKindHand2 = new Hand("4 TwoSpades TwoClubs AceHearts TwoHearts QueenDiamonds");
+
+		Hand twoPairHand1 = new Hand("2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds");
+		Hand twoPairHand2 = new Hand("2 AceClubs KingDiamonds AceHearts KingSpades AceDiamonds");
+		
+		Hand onePairHand1 = new Hand("3 AceHearts AceDiamonds KingSpades FourClubs SixHearts");
+		Hand onePairHand2 = new Hand("3 KingHearts AceClubs KingSpades FourClubs SixHearts");
+	
+		Hand highCardHand1 = new Hand("1 AceHearts KingClubs QueenDiamonds JackClubs NineClubs");
+		Hand highCardHand2 = new Hand("1 AceClubs KingDiamonds QueenSpades JackClubs NineClubs");
+		
+		assertEquals(0,royalFlushHand2.compareTo(royalFlushHand1));
+		assertEquals(0,straightFlushHand1.compareTo(straightFlushHand2));
+		assertEquals(-1,fourOfAKindHand1.compareTo(fourOfAKindHand2));
+		assertEquals(1,fullHouseHand1.compareTo(fullHouseHand2));
+		assertEquals(1,flushHand1.compareTo(flushHand2));
+		assertEquals(-1,straightHand1.compareTo(straightHand2));
+		assertEquals(-1,threeOfAKindHand1.compareTo(threeOfAKindHand2));
+		assertEquals(-1,twoPairHand1.compareTo(twoPairHand2));
+		assertEquals(1,onePairHand1.compareTo(onePairHand2));
+		assertEquals(0,highCardHand1.compareTo(highCardHand2));
+		
+		
+		assertEquals(-1,highCardHand1.compareTo(onePairHand1));
+		assertEquals(-1,onePairHand1.compareTo(twoPairHand1));
+		assertEquals(-1,threeOfAKindHand1.compareTo(straightHand1));
+		assertEquals(-1,straightHand1.compareTo(flushHand1));
+		assertEquals(-1,flushHand1.compareTo(fullHouseHand1));
+		assertEquals(-1,fullHouseHand1.compareTo(fourOfAKindHand1));
+		assertEquals(-1,fourOfAKindHand1.compareTo(straightFlushHand1));
+		assertEquals(-1,straightFlushHand1.compareTo(royalFlushHand1));
+		
+		assertEquals(1,royalFlushHand1.compareTo(flushHand1));
+		assertEquals(1,threeOfAKindHand1.compareTo(onePairHand1));
 	}
 		
 	@Test
