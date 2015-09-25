@@ -37,9 +37,17 @@ public class CardTest {
 	@Test
 	public void testParseCardFromString() {
 		String s1 = "TwoSpades";
-		Card c = Card.parseCardFromString(s1);
-		assertEquals(Card.Rank.TWO,c.getRank());
-		assertEquals(Card.Suit.SPADES,c.getSuit());
+		String s2 = "FiveHearts";
+		
+		Card c1 = Card.parseCardFromString(s1);
+		assertEquals(Card.Rank.TWO,c1.getRank());
+		assertEquals(Card.Suit.SPADES,c1.getSuit());
+		
+		Card c2 = Card.parseCardFromString(s2);
+		assertEquals(Card.Rank.FIVE,c2.getRank());
+		assertEquals(Card.Suit.HEARTS,c2.getSuit());
+		
+		assertNull(Card.parseCardFromString("f25235GGGG3jf"));
 	}
 	@Test
 	public void testCardEquals() {

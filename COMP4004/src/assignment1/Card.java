@@ -54,4 +54,27 @@ public class Card {
 		}
 		else return false;
 	}
+
+	public static Card parseCardFromString(String s) {
+		if(!Character.isUpperCase(s.charAt(0)))
+			return null;
+		
+		int i=1;
+		while(!Character.isUpperCase(s.charAt(i)))			
+			i++;
+		
+		if(i == s.length() - 1)
+			return null;
+		
+		
+		
+		String newRank = s.substring(0, i);
+		String newSuit = s.substring(i);
+		
+		Card.Rank aRank = Card.Rank.valueOf(newRank.toUpperCase());
+		Card.Suit aSuit = Card.Suit.valueOf(newSuit.toUpperCase());
+		
+		return new Card(aRank,aSuit);
+
+	}
 }
