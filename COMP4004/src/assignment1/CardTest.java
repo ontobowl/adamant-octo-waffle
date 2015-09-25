@@ -34,4 +34,15 @@ public class CardTest {
 		}
 		assert(true); //all cards were constructed
 	}
+	@Test
+	public void testCardEquals() {
+		Card c1 = new Card(Card.Rank.JACK,Card.Suit.DIAMONDS);
+		Card c2 = new Card(Card.Rank.TWO,Card.Suit.DIAMONDS);
+		Card c3 = new Card(Card.Rank.JACK,Card.Suit.CLUBS);
+		Card c4 = new Card(Card.Rank.JACK,Card.Suit.CLUBS);
+		
+		assertFalse(c1.equals(c2));
+		assertFalse(c1.equals(c3));
+		assertTrue(c3.equals(c4));
+	}
 }
