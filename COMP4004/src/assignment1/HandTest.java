@@ -14,17 +14,19 @@ public class HandTest {
 	public void testNumCards() {
 		Hand aHand = new Hand();
 		
-		List<Card> cards = makeDeck();
-		
+		List<Card> deck = makeDeck();
+		Card tmpCard;
 		
 		for(int i=0; i<5; i++) {
 			assertFalse(aHand.isComplete());
-			aHand.addCard(cards.remove(0));
+			tmpCard = deck.remove(0);
+			aHand.addCard(tmpCard.getRank(),tmpCard.getSuit());
 		}
 		assertTrue(aHand.isComplete());
 		
 		try {
-			aHand.addCard(cards.remove(0));
+			tmpCard = deck.remove(0);
+			aHand.addCard(tmpCard.getRank(),tmpCard.getSuit());
 		}
 		catch(Exception e) {
 			fail("hand exception");
@@ -41,13 +43,13 @@ public class HandTest {
 		assertFalse(aHand.addCard(Card.Rank.ACE,Card.Suit.SPADES));		
 	}
 	
-	@Test (expected = Exception.class)
+	@Test
 	public void testInvalidID() {	//fails if player ID is not in the range [1,4]
 			Hand highHand = new Hand();
 			Hand lowHand = new Hand();
 			
-			highHand.setID(5);
-			lowHand.setID(0);
+			assertFalse(highHand.setID(6));
+			assertFalse(lowHand.setID(0));
 	}
 	
 	@Test
