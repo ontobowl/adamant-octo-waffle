@@ -35,6 +35,13 @@ public class CardTest {
 		assert(true); //all cards were constructed
 	}
 	@Test
+	public void testParseCardFromString() {
+		String s1 = "TwoSpades";
+		Card c = Card.parseCardFromString(s1);
+		assertTrue(Card.Rank.TWO,c.getRank());
+		assertTrue(Card.Suit.SPADES,c.getSuit());
+	}
+	@Test
 	public void testCardEquals() {
 		Card c1 = new Card(Card.Rank.JACK,Card.Suit.DIAMONDS);
 		Card c2 = new Card(Card.Rank.TWO,Card.Suit.DIAMONDS);
