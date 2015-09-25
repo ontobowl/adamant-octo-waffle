@@ -54,16 +54,16 @@ public class HandTest {
 	
 	@Test
 	public void testHandCompare() {
-		Hand royalFlushHand = new Hand();
-		Hand straightFlushHand = new Hand();
-		Hand fourOfAKindHand = new Hand();
-		Hand fullHouseHand = new Hand();
-		Hand flushHand = new Hand();
-		Hand straightHand = new Hand();
-		Hand threeOfAKindHand = new Hand();
-		Hand twoPairHand = new Hand();
-		Hand onePairHand = new Hand();
-		Hand highCardHand = new Hand();
+		Hand royalFlushHand = new Hand("1 TenHearts JackHearts QueenHearts KingHearts AceHearts");
+		Hand straightFlushHand = new Hand("1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs");
+		Hand fourOfAKindHand = new Hand("3 TwoClubs TwoHearts TwoSpades TwoDiamonds FiveClubs");
+		Hand fullHouseHand = new Hand("2 AceHearts AceClubs AceSpades KingDiamonds KingHearts");
+		Hand flushHand = new Hand("1 AceClubs TenClubs FiveClubs ThreeClubs NineClubs");
+		Hand straightHand = new Hand("1 TwoClubs ThreeClubs FourSpades FiveClubs SixDiamonds");
+		Hand threeOfAKindHand = new Hand("4 TwoSpades TwoClubs KingHearts TwoHearts QueenDiamonds");
+		Hand twoPairHand = new Hand("2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds");
+		Hand onePairHand = new Hand("3 AceHearts AceDiamonds KingSpades FourClubs SixHearts");
+		Hand highCardHand = new Hand("1 AceHearts KingClubs QueenDiamonds JackClubs NineClubs");
 		
 		assertEquals(2,highCardHand.compareTo(onePairHand));
 		assertEquals(2,onePairHand.compareTo(twoPairHand));
@@ -93,8 +93,8 @@ public class HandTest {
 	@Test
 	public void testParseHand() {
 		Hand aHand = new Hand();
-		aHand.setID(3);
 		
+		aHand.setID(3);
 		aHand.addCard(Card.Rank.TWO,Card.Suit.HEARTS);
 		aHand.addCard(Card.Rank.FIVE,Card.Suit.CLUBS);
 		aHand.addCard(Card.Rank.KING,Card.Suit.SPADES);
@@ -102,14 +102,50 @@ public class HandTest {
 		aHand.addCard(Card.Rank.TEN,Card.Suit.DIAMONDS);
 		
 		assertEquals(3,aHand.getID());
+		assertEquals("TwoHearts",aHand.getCard1().toString());
+		assertEquals("FiveClubs",aHand.getCard2().toString());
+		assertEquals("KingSpades",aHand.getCard3().toString());
+		assertEquals("ThreeClubs",aHand.getCard4().toString());
+		assertEquals("TenDiamonds",aHand.getCard5().toString());
+	} 
+	
+	@Test
+	public void testParseHandFromString() {
+		Hand aHand = new Hand("2 TwoHearts FiveClubs KingSpades ThreeClubs TenDiamonds");
+		
+		assertEquals(2,aHand.getID());
 		assertEquals("TwoHearts",aHand.getCard1());
 		assertEquals("FiveClubs",aHand.getCard2());
 		assertEquals("KingSpades",aHand.getCard3());
 		assertEquals("ThreeClubs",aHand.getCard4());
 		assertEquals("TenDiamonds",aHand.getCard5());
-		
 	}
 	
+	@Test
+	public void testGetHandRanking() {
+		//check royal flush
+		Hand royalFlushHand = new Hand("1 TenHearts JackHearts QueenHearts KingHearts AceHearts");
+		Hand straightFlushHand = new Hand("1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs");
+		Hand fourOfAKindHand = new Hand("3 TwoClubs TwoHearts TwoSpades TwoDiamonds FiveClubs");
+		Hand fullHouseHand = new Hand("2 AceHearts AceClubs AceSpades KingDiamonds KingHearts");
+		Hand flushHand = new Hand("1 AceClubs TenClubs FiveClubs ThreeClubs NineClubs");
+		Hand straightHand = new Hand("1 TwoClubs ThreeClubs FourSpades FiveClubs SixDiamonds");
+		Hand threeOfAKindHand = new Hand("4 TwoSpades TwoClubs KingHearts TwoHearts QueenDiamonds");
+		Hand twoPairHand = new Hand("2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds");
+		Hand onePairHand = new Hand("3 AceHearts AceDiamonds KingSpades FourClubs SixHearts");
+		Hand highCardHand = new Hand("1 AceHearts KingClubs QueenDiamonds JackClubs NineClubs");
+		
+		assertEquals(Hand.PokerRank.ROYALFLUSH, royalFlushHand);
+		assertEquals(Hand.PokerRank.STRAIGHTFLUSH, straightFlushHand);
+		assertEquals(Hand.PokerRank.FOUROFAKIND, fourOfAKindHand);
+		assertEquals(Hand.PokerRank.FULLHOUSE, fullHouseHand);
+		assertEquals(Hand.PokerRank.FLUSH, flushHand);
+		assertEquals(Hand.PokerRank.STRAIGHT, straightHand);
+		assertEquals(Hand.PokerRank.THREEOFAKIND, threeOfAKindHand);
+		assertEquals(Hand.PokerRank.TWOPAIR, twoPairHand);
+		assertEquals(Hand.PokerRank.ONEPAIR, onePairHand);
+		assertEquals(Hand.PokerRank.HIGHHAND, highCardHand);
+	}
 	
 	private static List<Card> makeDeck() {
 		List<Card> cards = new ArrayList<Card>();

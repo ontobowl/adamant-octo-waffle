@@ -9,8 +9,38 @@ import assignment1.Card.Suit;
 
 public class Hand {
 	
+	public enum PokerRank {
+			ROYALFLUSH,
+			STRAIGHTFLUSH,
+			FOUROFAKIND,
+			FULLHOUSE,
+			FLUSH,
+			STRAIGHT,
+			THREEOFAKIND,
+			TWOPAIR,
+			ONEPAIR,
+			HIGHHAND
+	}
+	
 	private int id;
 	private List<Card> cards = new ArrayList<Card>();
+
+	public Hand() {
+		
+	}
+	
+	public Hand(String h) {
+		Hand tmpHand = new Hand();
+		tmpHand = Hand.parseHandFromString(h);
+	}
+	
+	public static Hand parseHandFromString(String h) {
+		Hand tmpHand = new Hand();
+		String[] tokens = h.split("[ ]+");
+		tmpHand.setID(Integer.parseInt(tokens[0]));
+		//tmpHand.addCa
+		return tmpHand;
+	}
 
 	public Boolean isComplete() { return cards.size() == 5; }
 
@@ -39,9 +69,16 @@ public class Hand {
 	public Card getCard4() { return cards.get(3); }
 	public Card getCard5() { return cards.get(4); }
 
-	public int compareTo(Hand h) {
-		// TODO Auto-generated method stub
+	public int compareTo(Hand h) {			
+		
+		
+		
 		return 0;
+	}
+	
+	public PokerRank getHandRanking() {
+		//check royal flush
+		
 	}
 
 }
