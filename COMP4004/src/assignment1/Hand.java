@@ -29,17 +29,22 @@ public class Hand {
 		
 	}
 	
-	public Hand(String h) {
-		Hand tmpHand = new Hand();
-		tmpHand = Hand.parseHandFromString(h);
+	public Hand(String h) throws IllegalArgumentException{
+		parseHandFromString(h);
 	}
 	
-	public static Hand parseHandFromString(String h) {
-		Hand tmpHand = new Hand();
+	public void parseHandFromString(String h) {
 		String[] tokens = h.split("[ ]+");
-		tmpHand.setID(Integer.parseInt(tokens[0]));
-		//tmpHand.addCa
-		return tmpHand;
+		
+		if(tokens.length != 6) 
+			throw new IllegalArgumentException();
+		
+		id = Integer.parseInt(tokens[0]);
+		cards.add(Card.parseCardFromString(tokens[1]));
+		cards.add(Card.parseCardFromString(tokens[2]));
+		cards.add(Card.parseCardFromString(tokens[3]));
+		cards.add(Card.parseCardFromString(tokens[4]));
+		cards.add(Card.parseCardFromString(tokens[5]));
 	}
 
 	public Boolean isComplete() { return cards.size() == 5; }
@@ -77,8 +82,155 @@ public class Hand {
 	}
 	
 	public PokerRank getHandRanking() {
-		//check royal flush
+		//get sorted order
 		
+		List<Card> sortedCards = new ArrayList<Card>();
+		for(Card c: cards)
+			sortedCards.add(c);
+		
+		Card tmpCard;
+		for(int i=0;i<4;i++) {
+			for(int j=i+1;j<5;j++) {
+				if(sortedCards.get(i).getRank().ordinal() > sortedCards.get(j).getRank().ordinal()) {
+					tmpCard = sortedCards.get(i);
+					sortedCards.set(i,sortedCards.get(j));
+					sortedCards.set(j,tmpCard);
+				}
+			}
+		}
+		
+		
+		//check royal flush
+		if((sortedCards.get(0).getRank().toString() == "TEN" &&
+			sortedCards.get(1).getRank().toString() == "JACK" &&
+			sortedCards.get(2).getRank().toString() == "QUEEN" &&
+			sortedCards.get(3).getRank().toString() == "KING" &&
+			sortedCards.get(4).getRank().toString() == "ACE")
+				&&
+			(sortedCards.get(0).getSuit() == sortedCards.get(1).getSuit() &&
+			sortedCards.get(1).getSuit() == sortedCards.get(2).getSuit() &&
+			sortedCards.get(2).getSuit() == sortedCards.get(3).getSuit() &&
+			sortedCards.get(3).getSuit() == sortedCards.get(4).getSuit()))
+			return PokerRank.ROYALFLUSH;
+		
+		//check straight flush
+		int lowestRank = sortedCards.get(0).getRank().ordinal();
+		if((sortedCards.get(1).getRank().ordinal() == lowestRank+1 &&
+			sortedCards.get(2).getRank().ordinal() == lowestRank+2 &&
+			sortedCards.get(3).getRank().ordinal() == lowestRank+3 &&
+			sortedCards.get(4).getRank().ordinal() == lowestRank+4)
+				&&
+			sortedCards.get(0).getSuit() == sortedCards.get(1).getSuit() &&
+			sortedCards.get(1).getSuit() == sortedCards.get(2).getSuit() &&
+			sortedCards.get(2).getSuit() == sortedCards.get(3).getSuit() &&
+			sortedCards.get(3).getSuit() == sortedCards.get(4).getSuit())
+			return PokerRank.STRAIGHTFLUSH;
+										
+		//check four of a kind
+		if(	sortedCards.get(0).getRank() == sortedCards.get(1).getRank()) 
+			if(	sortedCards.get(1).getRank() == sortedCards.get(2).getRank() &&
+				sortedCards.get(2).getRank() == sortedCards.get(3).getRank())
+				return PokerRank.FOUROFAKIND;
+		else if(sortedCards.get(1).getRank() == sortedCards.get(2).getRank() &&
+				sortedCards.get(2).getRank() == sortedCards.get(3).getRank() &&
+				sortedCards.get(3).getRank() == sortedCards.get(4).getRank())
+				return PokerRank.FOUROFAKIND;
+				
+		//check full house
+		if((sortedCards.get(0).getRank() == sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() != sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() == sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() == sortedCards.get(4).getRank())
+		   ||
+		   (sortedCards.get(0).getRank() == sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() == sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() != sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() == sortedCards.get(4).getRank())
+		  ) {
+				return PokerRank.FULLHOUSE;
+			}
+		
+		//check flush
+		if(	sortedCards.get(0).getSuit() == sortedCards.get(1).getSuit() &&
+			sortedCards.get(1).getSuit() == sortedCards.get(2).getSuit() &&
+			sortedCards.get(2).getSuit() == sortedCards.get(3).getSuit() &&
+			sortedCards.get(3).getSuit() == sortedCards.get(4).getSuit())
+			return PokerRank.FLUSH;
+		
+		//check straight
+		if(	sortedCards.get(1).getRank().ordinal() == lowestRank+1 &&
+			sortedCards.get(2).getRank().ordinal() == lowestRank+2 &&
+			sortedCards.get(3).getRank().ordinal() == lowestRank+3 &&
+			sortedCards.get(4).getRank().ordinal() == lowestRank+4)
+			return PokerRank.STRAIGHT;
+		
+		//check three of a kind
+		if((sortedCards.get(0).getRank() == sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() == sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() != sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() != sortedCards.get(4).getRank())
+			||
+		   (sortedCards.get(0).getRank() != sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() != sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() == sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() == sortedCards.get(4).getRank())
+			||
+		   (sortedCards.get(0).getRank() != sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() == sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() == sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() != sortedCards.get(4).getRank()))
+				return PokerRank.THREEOFAKIND; 
+		
+		//check two pair
+		if((sortedCards.get(0).getRank() == sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() != sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() == sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() != sortedCards.get(4).getRank())
+			||
+		   (sortedCards.get(0).getRank() == sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() != sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() != sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() == sortedCards.get(4).getRank())
+		    ||
+		   (sortedCards.get(0).getRank() != sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() == sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() != sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() == sortedCards.get(4).getRank()))
+			return PokerRank.TWOPAIR;
+		
+		//check one pair
+		if((sortedCards.get(0).getRank() == sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() != sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() != sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() != sortedCards.get(4).getRank())
+			||
+		   (sortedCards.get(0).getRank() != sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() == sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() != sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() != sortedCards.get(4).getRank())
+		    ||
+		   (sortedCards.get(0).getRank() != sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() != sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() == sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() != sortedCards.get(4).getRank())
+		    ||
+		   (sortedCards.get(0).getRank() != sortedCards.get(1).getRank() &&
+			sortedCards.get(1).getRank() != sortedCards.get(2).getRank() &&
+			sortedCards.get(2).getRank() != sortedCards.get(3).getRank() &&
+			sortedCards.get(3).getRank() == sortedCards.get(4).getRank()))
+			return PokerRank.ONEPAIR;
+		
+		//otherwise, high hand
+		return PokerRank.HIGHHAND;
+	}
+	
+	public String toString() {
+		return id 
+				+ " " + cards.get(0).toString() 
+				+ " " + cards.get(1).toString() 
+				+ " " + cards.get(2).toString() 
+				+ " " + cards.get(3).toString()
+				+ " " + cards.get(4).toString();
 	}
 
 }

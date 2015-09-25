@@ -111,20 +111,26 @@ public class HandTest {
 	
 	@Test
 	public void testParseHandFromString() {
-		Hand aHand = new Hand("2 TwoHearts FiveClubs KingSpades ThreeClubs TenDiamonds");
+		//Boolean thrown = false;
+		try {
+			Hand aHand = new Hand("2 TwoHearts FiveClubs KingSpades ThreeClubs TenDiamonds");
+			assertEquals(2,aHand.getID());
+			assertEquals("TwoHearts",aHand.getCard1().toString());
+			assertEquals("FiveClubs",aHand.getCard2().toString());
+			assertEquals("KingSpades",aHand.getCard3().toString());
+			assertEquals("ThreeClubs",aHand.getCard4().toString());
+			assertEquals("TenDiamonds",aHand.getCard5().toString());
+		} catch(IllegalArgumentException e) {
+			fail(e.getMessage());
+		}
 		
-		assertEquals(2,aHand.getID());
-		assertEquals("TwoHearts",aHand.getCard1());
-		assertEquals("FiveClubs",aHand.getCard2());
-		assertEquals("KingSpades",aHand.getCard3());
-		assertEquals("ThreeClubs",aHand.getCard4());
-		assertEquals("TenDiamonds",aHand.getCard5());
+
 	}
 	
 	@Test
 	public void testGetHandRanking() {
 		//check royal flush
-		Hand royalFlushHand = new Hand("1 TenHearts JackHearts QueenHearts KingHearts AceHearts");
+		Hand royalFlushHand = new Hand("1 JackHearts TenHearts QueenHearts KingHearts AceHearts");
 		Hand straightFlushHand = new Hand("1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs");
 		Hand fourOfAKindHand = new Hand("3 TwoClubs TwoHearts TwoSpades TwoDiamonds FiveClubs");
 		Hand fullHouseHand = new Hand("2 AceHearts AceClubs AceSpades KingDiamonds KingHearts");
@@ -134,17 +140,18 @@ public class HandTest {
 		Hand twoPairHand = new Hand("2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds");
 		Hand onePairHand = new Hand("3 AceHearts AceDiamonds KingSpades FourClubs SixHearts");
 		Hand highCardHand = new Hand("1 AceHearts KingClubs QueenDiamonds JackClubs NineClubs");
+	
 		
-		assertEquals(Hand.PokerRank.ROYALFLUSH, royalFlushHand);
-		assertEquals(Hand.PokerRank.STRAIGHTFLUSH, straightFlushHand);
-		assertEquals(Hand.PokerRank.FOUROFAKIND, fourOfAKindHand);
-		assertEquals(Hand.PokerRank.FULLHOUSE, fullHouseHand);
-		assertEquals(Hand.PokerRank.FLUSH, flushHand);
-		assertEquals(Hand.PokerRank.STRAIGHT, straightHand);
-		assertEquals(Hand.PokerRank.THREEOFAKIND, threeOfAKindHand);
-		assertEquals(Hand.PokerRank.TWOPAIR, twoPairHand);
-		assertEquals(Hand.PokerRank.ONEPAIR, onePairHand);
-		assertEquals(Hand.PokerRank.HIGHHAND, highCardHand);
+		assertEquals(Hand.PokerRank.ROYALFLUSH, royalFlushHand.getHandRanking());
+		assertEquals(Hand.PokerRank.STRAIGHTFLUSH, straightFlushHand.getHandRanking());
+		assertEquals(Hand.PokerRank.FOUROFAKIND, fourOfAKindHand.getHandRanking());
+		assertEquals(Hand.PokerRank.FULLHOUSE, fullHouseHand.getHandRanking());
+		assertEquals(Hand.PokerRank.FLUSH, flushHand.getHandRanking());
+		assertEquals(Hand.PokerRank.STRAIGHT, straightHand.getHandRanking());
+		assertEquals(Hand.PokerRank.THREEOFAKIND, threeOfAKindHand.getHandRanking());
+		assertEquals(Hand.PokerRank.TWOPAIR, twoPairHand.getHandRanking());
+		assertEquals(Hand.PokerRank.ONEPAIR, onePairHand.getHandRanking());
+		assertEquals(Hand.PokerRank.HIGHHAND, highCardHand.getHandRanking());
 	}
 	
 	private static List<Card> makeDeck() {
