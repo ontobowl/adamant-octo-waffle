@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 import org.junit.Test;
 
@@ -17,8 +16,6 @@ public class GameTest {
 		
 		String input = "2\n3\n4\n1\n5\n3";
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-		
-//		Scanner scanner = new Scanner(stream);
 
 		Game game = new Game(stream);
 		game.queryNumPlayers();
@@ -44,7 +41,7 @@ public class GameTest {
 		game.queryPlayerHands();
 		assertEquals("1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs", game.getHands().get(0).toString());
 		assertEquals("2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds", game.getHands().get(1).toString());
-		assertEquals(game.getHands().size());
+		assertEquals(2, game.getHands().size());
 	}
 	@Test
 	public void testInvalidPlayerHand() {
@@ -64,7 +61,7 @@ public class GameTest {
 		game.queryPlayerHands();
 		assertEquals("1 AceClubs AceHearts KingSpades ThreeDiamonds", game.getHands().get(0).toString());
 		assertEquals("2 AceHearts KingClubs QueenDiamonds JackClubs NineClubs", game.getHands().get(1).toString());
-		assertEquals(game.getHands().size());
+		assertEquals(2,game.getHands().size());
 	}
 	@Test
 	public void testGameWinner() {
