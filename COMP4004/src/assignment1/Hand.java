@@ -33,26 +33,30 @@ public class Hand {
 		parseHandFromString(h);
 	}
 	
-	public void parseHandFromString(String h) {
+	public void parseHandFromString(String h) throws IllegalArgumentException {
 		String[] tokens = h.split("[ ]+");
 		
 		if(tokens.length != 6) 
 			throw new IllegalArgumentException();
 		
 		id = Integer.parseInt(tokens[0]);
-		cards.add(Card.parseCardFromString(tokens[1]));
-		cards.add(Card.parseCardFromString(tokens[2]));
-		cards.add(Card.parseCardFromString(tokens[3]));
-		cards.add(Card.parseCardFromString(tokens[4]));
-		cards.add(Card.parseCardFromString(tokens[5]));
+		if(		!addCard(Card.parseCardFromString(tokens[1]).getRank(),Card.parseCardFromString(tokens[1]).getSuit())
+			||	!addCard(Card.parseCardFromString(tokens[2]).getRank(),Card.parseCardFromString(tokens[2]).getSuit())
+			||	!addCard(Card.parseCardFromString(tokens[3]).getRank(),Card.parseCardFromString(tokens[3]).getSuit())
+			||	!addCard(Card.parseCardFromString(tokens[4]).getRank(),Card.parseCardFromString(tokens[4]).getSuit())
+			||	!addCard(Card.parseCardFromString(tokens[5]).getRank(),Card.parseCardFromString(tokens[5]).getSuit()))
+			throw new IllegalArgumentException();
 	}
 
 	public Boolean isComplete() { return cards.size() == 5; }
 
 	public Boolean addCard(Rank r, Suit s) {
 		Card c = new Card(r,s);
-		if(cards.size() == 5 || cards.contains(c))
+		if(cards.size() == 5 || cards.contains(c)) {
+			if(cards.contains(c))
+				System.out.println("DUPLICATE");
 			return false;
+		}
 		
 		cards.add(c);
 		return true;
