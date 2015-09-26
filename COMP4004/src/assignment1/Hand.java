@@ -487,5 +487,7 @@ public class Hand {
 				+ " " + cards.get(3).toString()
 				+ " " + cards.get(4).toString();
 	}
-
+	public List<Card> getCards() {
+		return cards;
+	}
 }

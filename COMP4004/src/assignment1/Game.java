@@ -47,14 +47,36 @@ public class Game {
 		hands = new ArrayList<Hand>();
 		List<Hand> tmpHands = new ArrayList<Hand>();
 
+		Boolean isDuplicate = false;
+		
 		for(int i=0;i<numPlayers;i++) {
 			sHand = scanner.nextLine();
 			try {
 				newHand = new Hand(sHand);
 				if(newHand.getID() >= 1 && newHand.getID() <= 4 && newHand.getID() <= numPlayers) {
 					if(validHands[newHand.getID() - 1] == 0) {
-						tmpHands.add(newHand);
-						validHands[newHand.getID() - 1] = 1;
+						for(int j=0;j<tmpHands.size();j++) {
+							for(int k=0;k<5;k++){
+								for(int l=0;l<5;l++){
+									System.out.println("---before");
+									System.out.println(newHand.getCards().get(l).toString());
+									System.out.println(tmpHands.get(j).getCards().get(k).toString());
+									System.out.println("---after");
+									if(newHand.getCards().get(l).toString().equals(tmpHands.get(j).getCards().get(k).toString())) {
+										//there is a card in newHand that is a duplicate of another card in a different hand
+										isDuplicate = true;
+										System.out.println("found a dupe");
+									}
+								}
+							}
+						}
+						if(isDuplicate) {
+							i--;
+							isDuplicate = false;
+						} else {
+							tmpHands.add(newHand);
+							validHands[newHand.getID() - 1] = 1;
+						}
 					} else {
 						//there is a player with that ID already
 						System.out.println("There is already a player with that ID, please retry with a valid and unused ID.");
