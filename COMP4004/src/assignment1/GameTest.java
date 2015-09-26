@@ -12,8 +12,7 @@ public class GameTest {
 
 	@Test
 	public void testValidNumPlayers() {
-		
-		
+		System.out.println("testValidNumPlayers");
 		String input = "2\n3\n4\n1\n5\n3";
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
@@ -30,7 +29,7 @@ public class GameTest {
 	@Test
 	public void testInputPlayerHand() {
 		
-		
+		System.out.println("testInputPlayerHand");
 		String input = "2\n"
 						+ "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
 						+ "2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds";
@@ -39,12 +38,16 @@ public class GameTest {
 		Game game = new Game(stream);
 		game.queryNumPlayers();
 		game.queryPlayerHands();
+		
+		System.out.println(game.getHands().size());
+		
 		assertEquals("1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs", game.getHands().get(0).toString());
 		assertEquals("2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds", game.getHands().get(1).toString());
 		assertEquals(2, game.getHands().size());
 	}
 	@Test
 	public void testInvalidPlayerHand() {
+		System.out.println("testInvalidPlayerHand");
 		
 		String input = "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
 				+ "5\n2\n"
@@ -52,14 +55,15 @@ public class GameTest {
 				+ "AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds\n"
 				+ "2 AceHearts KingClubs QueenDiamonds JackClubs NineClubs\n"
 				+ "4 TwoSpades TwoClubs KingHearts TwoHearts QueenDiamonds\n"
-				+ "1 AceClubs AceHearts KingSpades ThreeDiamonds";
+				+ "1 AceClubs AceHearts KingSpades ThreeDiamonds FourSpades";
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 		
 		
 		Game game = new Game(stream);
 		game.queryNumPlayers();
 		game.queryPlayerHands();
-		assertEquals("1 AceClubs AceHearts KingSpades ThreeDiamonds", game.getHands().get(0).toString());
+		
+		assertEquals("1 AceClubs AceHearts KingSpades ThreeDiamonds FourSpades", game.getHands().get(0).toString());
 		assertEquals("2 AceHearts KingClubs QueenDiamonds JackClubs NineClubs", game.getHands().get(1).toString());
 		assertEquals(2,game.getHands().size());
 	}
@@ -67,16 +71,18 @@ public class GameTest {
 	public void testGameWinner() {
 		
 		String input = "2\n"
-						+ "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs"
+						+ "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
 						+ "2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds";
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 		
 		Game game = new Game(stream);
-		assertNull(game.getWinner());
+		assertEquals(-1,game.getWinner());
 		game.queryNumPlayers();
-		assertNull(game.getWinner());
+		assertEquals(-1,game.getWinner());
 		game.queryPlayerHands();
 		assertEquals(1, game.getRanking()[0]);
+		assertEquals(2, game.getRanking()[1]);
+		assertEquals(1, game.getWinner());
 	}
 
 }
