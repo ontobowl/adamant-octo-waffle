@@ -68,6 +68,18 @@ public class GameTest {
 		assertEquals(2,game.getHands().size());
 	}
 	@Test
+	public void testDuplicateCards() {
+		String input = "2\n"
+				+ "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
+				+ "2 AceClubs KingDiamonds AceHearts FourClubs ThreeDiamonds";
+		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+		
+		Game game = new Game(stream);
+		game.queryNumPlayers();
+		game.queryPlayerHands();
+		assertEquals(1,game.getHands().size());
+	}
+	@Test
 	public void testGameWinner() {
 		
 		String input = "2\n"
@@ -84,5 +96,4 @@ public class GameTest {
 		assertEquals(2, game.getRanking()[1]);
 		assertEquals(1, game.getWinner());
 	}
-
 }

@@ -81,12 +81,7 @@ public class Game {
 					
 			}
 		}
-		
-		
-		
 		hands = tmpHands;
-		
-		
 	}
 	
 
