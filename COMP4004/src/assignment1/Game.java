@@ -29,11 +29,9 @@ public class Game {
 					break;
 				} else {
 					System.out.println("Invalid number of players, please retry.");
-					System.out.println("In else");
 				}
 			} catch(NumberFormatException e) {
 				System.out.println("Invalid number of players, please retry.");
-				System.out.println("In catch");
 			}
 		}
 		
@@ -58,14 +56,9 @@ public class Game {
 						for(int j=0;j<tmpHands.size();j++) {
 							for(int k=0;k<5;k++){
 								for(int l=0;l<5;l++){
-									System.out.println("---before");
-									System.out.println(newHand.getCards().get(l).toString());
-									System.out.println(tmpHands.get(j).getCards().get(k).toString());
-									System.out.println("---after");
 									if(newHand.getCards().get(l).toString().equals(tmpHands.get(j).getCards().get(k).toString())) {
 										//there is a card in newHand that is a duplicate of another card in a different hand
 										isDuplicate = true;
-										System.out.println("found a dupe");
 									}
 								}
 							}
@@ -115,7 +108,7 @@ public class Game {
 		return numPlayers;
 	}
 
-	public int[] getRanking() {
+	public List<Hand> getRanking() {
 		if(numPlayers < 2)
 			return null;
 		if(hands == null)
@@ -123,7 +116,7 @@ public class Game {
 		if(hands.size() != numPlayers)
 			return null;
 		
-		int[] ranking = new int[numPlayers];
+		//int[] ranking = new int[numPlayers];
 		List<Hand> hRanking = new ArrayList<Hand>();
 		
 		Hand maxHand=null;
@@ -144,12 +137,12 @@ public class Game {
 		for(int i=0;i<numPlayers;i++){
 			ranking[i] = hRanking.get(i).getID();
 		}
-		return ranking;
+		return hRanking;
 	}
 
 	public int getWinner() {
 		if(getRanking() == null) return -1;
-		return getRanking()[0];
+		return getRanking().get(0).getID();
 	}
 
 }

@@ -334,6 +334,10 @@ public class Hand {
 		return 0;
 	}
 	
+	public void setCards(List<Card> someCards) {
+		cards = someCards;
+	}
+	
 	public PokerRank getHandRanking() {
 		//get sorted order
 		
