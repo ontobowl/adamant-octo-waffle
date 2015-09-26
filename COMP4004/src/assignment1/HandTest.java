@@ -17,6 +17,7 @@ public class HandTest {
 		List<Card> deck = makeDeck();
 		Card tmpCard;
 		
+		aHand.setID(1);
 		for(int i=0; i<5; i++) {
 			assertFalse(aHand.isComplete());
 			tmpCard = deck.remove(0);

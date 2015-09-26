@@ -22,13 +22,12 @@ public class Hand {
 			ROYALFLUSH
 	}
 	
-	private int id;
-	private List<Card> cards = new ArrayList<Card>();
+	private int id; //player ID
+	private List<Card> cards = new ArrayList<Card>(); //cards in the hand
 
-	public Hand() {
-		
-	}
+	public Hand() {}
 	
+	//Takes an ID and five Cards
 	public Hand(String h) throws IllegalArgumentException{
 		parseHandFromString(h);
 	}
@@ -38,8 +37,9 @@ public class Hand {
 		
 		if(tokens.length != 6) 
 			throw new IllegalArgumentException();
-		
+
 		id = Integer.parseInt(tokens[0]);
+		//Fails if any Card is invalid or a duplicate
 		if(		!addCard(Card.parseCardFromString(tokens[1]).getRank(),Card.parseCardFromString(tokens[1]).getSuit())
 			||	!addCard(Card.parseCardFromString(tokens[2]).getRank(),Card.parseCardFromString(tokens[2]).getSuit())
 			||	!addCard(Card.parseCardFromString(tokens[3]).getRank(),Card.parseCardFromString(tokens[3]).getSuit())
@@ -48,13 +48,12 @@ public class Hand {
 			throw new IllegalArgumentException();
 	}
 
-	public Boolean isComplete() { return cards.size() == 5; }
+	//A hand is valid if
+	public Boolean isComplete() { return cards.size() == 5 && id != 0; }
 
 	public Boolean addCard(Rank r, Suit s) {
 		Card c = new Card(r,s);
 		if(cards.size() == 5 || cards.contains(c)) {
-			if(cards.contains(c))
-				System.out.println("DUPLICATE");
 			return false;
 		}
 		
@@ -202,7 +201,6 @@ public class Hand {
 
 			for(int i=4;i>=0;i--) {
 				rankDiff = sortedCards1.get(i).getRank().ordinal() - sortedCards2.get(i).getRank().ordinal();
-				System.out.println(rankDiff);
 				if(rankDiff > 0)
 					return 1;
 				else if (rankDiff < 0)
@@ -212,8 +210,6 @@ public class Hand {
 			
 		case STRAIGHT:
 			//following the assumption that aces are only high and not high/low
-			System.out.println(sortedCards1.toString());
-			System.out.println(sortedCards2.toString());
 			
 			if(sortedCards1.get(4).getRank().ordinal() > sortedCards2.get(4).getRank().ordinal())
 				return 1;
@@ -244,10 +240,8 @@ public class Hand {
 		case TWOPAIR:
 			Card highPair1;
 			Card lowPair1;
-			//Card kicker1;
 			Card highPair2;
 			Card lowPair2;
-			//Card kicker2;
 			
 			//figure out each two-pairs' forms
 			//form of this hand
