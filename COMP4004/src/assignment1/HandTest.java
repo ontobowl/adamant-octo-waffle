@@ -180,10 +180,13 @@ public class HandTest {
 		Game game = new Game(stream);
 		game.queryNumPlayers();
 		game.queryPlayerHands();
+		System.out.println("GAG");
 		for (int i = 0; i < game.getNumPlayers(); i++) {
-			System.out.print(game.getHands().get(i).getID());
+			System.out.print(game.getRanking()[i]);
 		}
 		System.out.println();
+		System.out.println("GAAA");
+		System.out.println(hands.get(0).compareTo(hands.get(1)));
 
 		//
 

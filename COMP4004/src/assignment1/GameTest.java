@@ -101,8 +101,8 @@ public class GameTest {
 		game.queryNumPlayers();
 		assertEquals(-1, game.getWinner());
 		game.queryPlayerHands();
-		assertEquals(1, game.getRanking().get(0).getID());
-		assertEquals(2, game.getRanking().get(1).getID());
+		assertEquals(1, game.getRanking()[0]);
+		assertEquals(2, game.getRanking()[0]);
 		assertEquals(1, game.getWinner());
 	}
 
