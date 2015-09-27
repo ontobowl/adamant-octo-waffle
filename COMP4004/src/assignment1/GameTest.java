@@ -176,10 +176,17 @@ public class GameTest {
 			System.out.print(game.getHands().get(i).getID());	
 		}
 		System.out.println();
-		
-//		System.out.println(game.getRanking()[0]);
 	}
 
+	@Test
+	public void testMain() {
+		try{
+			main();
+		} catch(Exception e) {
+			fail();
+		}
+	}
+	
 	private static List<Card> makeDeck() {
 		List<Card> cards = new ArrayList<Card>();
 		for (Card.Suit s : Card.Suit.values()) {
