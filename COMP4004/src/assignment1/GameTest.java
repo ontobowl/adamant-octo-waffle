@@ -97,13 +97,13 @@ public class GameTest {
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
 		Game game = new Game(stream);
-		assertEquals(-1, game.getWinner());
+		assertNull(game.getWinners());
 		game.queryNumPlayers();
-		assertEquals(-1, game.getWinner());
+		assertNull(game.getWinners());
 		game.queryPlayerHands();
 		assertEquals(1, game.getRanking()[0]);
 		assertEquals(2, game.getRanking()[0]);
-		assertEquals(1, game.getWinner());
+		assertEquals(1, (int)game.getWinners().get(0));
 	}
 
 	@Test

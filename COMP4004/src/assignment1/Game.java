@@ -155,11 +155,18 @@ public class Game {
 		return ranking;
 	}
 
-	public int getWinner() {
+	public List<Integer> getWinners() {
 		if (getRanking() == null)
-			return -1;
+			return null;
 
-		return getRanking()[0];
+		List<Integer> winners = new ArrayList<Integer>();
+		int[] ranking = getRanking();
+		for(int i=0;i<numPlayers;i++) {
+			if(ranking[i] == 1)
+				winners.add(i);
+		}
+		                       
+		return winners;
 	}
 
 }
