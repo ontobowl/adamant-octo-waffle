@@ -125,7 +125,10 @@ public class GameTest {
 		game.printRanking();
 	}
 
-	private static InputStream getRandomGameInput() {
+	/**
+	 * @return
+	 */
+	private InputStream getRandomGameInput() {
 		Random rand = new Random();
 		List<Card> deck = makeDeck();
 		int n = rand.nextInt(3) + 2;
@@ -172,10 +175,10 @@ public class GameTest {
 		}
 
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-
 		return stream;
 	}
-	
+
+
 	private static List<Card> makeDeck() {
 		List<Card> cards = new ArrayList<Card>();
 		for (Card.Suit s : Card.Suit.values()) {
