@@ -120,7 +120,7 @@ public class Game {
 		if (hands.size() != numPlayers)
 			return null;
 
-		int[] ranking = new int[numPlayers];
+//		int[] ranking = new int[numPlayers];
 
 		List<Hand> handsCopy = new ArrayList<Hand>(hands);
 

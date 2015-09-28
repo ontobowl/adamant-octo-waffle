@@ -169,8 +169,6 @@ public class HandTest {
 
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
-		// System.out.println(input);
-
 		System.out.println(n);
 		for (int i = 0; i < n; i++) {
 			System.out.println(hands.get(i).toString() + ", rank: " + hands.get(i).getHandRanking().name());
@@ -179,15 +177,13 @@ public class HandTest {
 		Game game = new Game(stream);
 		game.queryNumPlayers();
 		game.queryPlayerHands();
-		System.out.println("GAG");
 		for (int i = 0; i < game.getNumPlayers(); i++) {
 			System.out.print(game.getRanking().get(i + 1));
 		}
 		System.out.println();
-		System.out.println("GAAA");
 		System.out.println(hands.get(0).compareTo(hands.get(1)));
 
-		//
+
 
 	}
 
