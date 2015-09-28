@@ -318,7 +318,7 @@ public class Hand {
 			}
 			if (highPair1.getRank().ordinal() > highPair2.getRank().ordinal())
 				return 1;
-			else if (highPair1.getRank().ordinal() > highPair2.getRank().ordinal())
+			else if (highPair1.getRank().ordinal() < highPair2.getRank().ordinal())
 				return -1;
 			else {
 				for (int i = 4; i >= 0; i--) {
@@ -333,7 +333,7 @@ public class Hand {
 			for (int i = 4; i >= 0; i--) {
 				if (sortedCards1.get(i).getRank().ordinal() > sortedCards2.get(i).getRank().ordinal())
 					return 1;
-				else if (sortedCards1.get(i).getRank().ordinal() > sortedCards2.get(i).getRank().ordinal())
+				else if (sortedCards1.get(i).getRank().ordinal() < sortedCards2.get(i).getRank().ordinal())
 					return -1;
 			}
 			return 0;

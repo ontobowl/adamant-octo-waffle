@@ -134,7 +134,7 @@ public class Game {
 
 		for (int j = 0; j < tmpNum; j++) {
 			maxHand = handsCopy.get(0);
-			for (int i = 0; i < handsCopy.size(); i++) {
+			for (int i = 1; i < handsCopy.size(); i++) {
 				if (maxHand.compareTo(handsCopy.get(i)) == -1) {
 					maxHand = handsCopy.get(i);
 				}
@@ -143,6 +143,11 @@ public class Game {
 			handsCopy.remove(maxHand);
 			for (int i = 0; i < handsCopy.size(); i++) {
 				if (maxHand.compareTo(handsCopy.get(i)) == 0) {
+					System.out.println("EQUAL HANDS:");
+					System.out.println(maxHand.toString());
+					System.out.println(handsCopy.get(i).toString());
+					System.out.println("END EQUAL HANDS");
+					
 					rankMap.get(j + 1).add(handsCopy.get(i));
 					handsCopy.remove(handsCopy.get(i));
 					i--;

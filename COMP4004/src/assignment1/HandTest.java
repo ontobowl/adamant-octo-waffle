@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import org.junit.Test;
 
@@ -41,19 +40,11 @@ public class HandTest {
 	public void testDuplicateCard() {
 		Boolean thrown = false;
 		try {
-			Hand aHand = new Hand("1 JackClubs AceSpades FourHearts ThreeHearts AceSpades");
+			new Hand("1 JackClubs AceSpades FourHearts ThreeHearts AceSpades");
 		} catch (IllegalArgumentException e) {
 			thrown = true;
 		}
 		assertTrue(thrown);
-		// Hand aHand = new Hand("1 JackClubs AceSpades FourHearts ThreeHearts
-		// AceSpades");
-		// aHand.addCard(Card.Rank.JACK,Card.Suit.CLUBS);
-		// aHand.addCard(Card.Rank.ACE,Card.Suit.SPADES);
-		// aHand.addCard(Card.Rank.FOUR,Card.Suit.HEARTS);
-		// aHand.addCard(Card.Rank.THREE,Card.Suit.HEARTS);
-		// assertFalse(aHand.addCard(Card.Rank.ACE,Card.Suit.SPADES));
-
 	}
 
 	@Test
