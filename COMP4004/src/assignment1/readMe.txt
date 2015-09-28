@@ -13,3 +13,7 @@ Test methods: Game::testInputPlayerHand(), Game::testInvalidPlayerHand(), Game::
 
 - output these hands (player id and cards) AND a rank (1 being the winner) in sorted decreasing order.
 Test methods: Game::testGameRound, Game::testMultipleRounds, Game::testGetRanking, Card::testPrintCard(), Card::testParseCardFromString(), Card::testCardEquals(), Hand::testHandCompare(), Hand::testHandToString(), Hand::testGetHandRanking(), 
+
+
+Instructions:
+Open this package in eclipse, and run TestSuite.
