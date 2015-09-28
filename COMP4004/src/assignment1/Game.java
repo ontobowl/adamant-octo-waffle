@@ -19,6 +19,8 @@ public class Game {
 	}
 
 	public void queryNumPlayers() {
+		
+		System.out.println("Enter the number of players participating in the round, from 2 to 4.");
 		numPlayers = 0;
 
 		String sNum;
@@ -29,17 +31,17 @@ public class Game {
 					numPlayers = Integer.parseInt(sNum);
 					break;
 				} else {
-					System.out.println("Invalid number of players, please retry.");
+					System.out.println("Invalid number of players, please give a number from 2 to 4.");
 				}
 			} catch (NumberFormatException e) {
-				System.out.println("Invalid number of players, please retry.");
+				System.out.println("Invalid number of players, please give a number from 2 to 4.");
 			}
 		}
 
 	}
 
 	public void queryPlayerHands() {
-
+		System.out.println("Enter each player's hand, composed of their ID (from 2 to " + numPlayers + ", in the format \"# RankSuit RankSuit RankSuit RankSuit RankSuit");
 		String sHand;
 		int[] validHands = new int[numPlayers];
 		Hand newHand;
@@ -49,6 +51,7 @@ public class Game {
 		Boolean isDuplicate = false;
 
 		for (int i = 0; i < numPlayers; i++) {
+			
 			sHand = scanner.nextLine();
 			try {
 				newHand = new Hand(sHand);
@@ -164,6 +167,8 @@ public class Game {
 
 	public void play() {
 		//plays a single game round
+		if(scanner == null)
+			scanner = new Scanner(System.in);
 		queryNumPlayers();
 		queryPlayerHands();
 		printRanking();
@@ -174,5 +179,13 @@ public class Game {
 		numPlayers=0;
 		hands=null;
 		scanner=null;
+	}
+	
+	public static void main(String[] args) {
+		Game game = new Game(System.in);
+		while(true) {
+			game.play();
+			game.reset();
+		}
 	}
 }
