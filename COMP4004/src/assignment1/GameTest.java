@@ -103,15 +103,14 @@ public class GameTest {
 		game.queryNumPlayers();
 		assertNull(game.getRanking());
 		game.queryPlayerHands();
-			
-		
+
 		game.getRanking();
 		game.getRanking().get(1);
 		System.out.println("HERRRRRRE" + game.getRanking());
-		
+
 		System.out.println("HERRRRRRE" + game.getRanking().get(1));
-		assertEquals(1, (int)(game.getRanking().get(1).get(0).getID()));
-		assertEquals(2, (int)(game.getRanking().get(2).get(0).getID()));
+		assertEquals(1, (int) (game.getRanking().get(1).get(0).getID()));
+		assertEquals(2, (int) (game.getRanking().get(2).get(0).getID()));
 	}
 
 	@Test
@@ -144,15 +143,11 @@ public class GameTest {
 		List<Card> sortedCards;
 		Card tmpCard;
 
-		
-			
-		
-		for(int g=0;g<n;g++) {
+		for (int g = 0; g < n; g++) {
 			sortedCards = new ArrayList<Card>();
-			
-			for (Card c: hands.get(g).getCards())
+
+			for (Card c : hands.get(g).getCards())
 				sortedCards.add(c);
-			
 
 			for (int i = 0; i < 4; i++) {
 				for (int j = i + 1; j < 5; j++) {
@@ -168,10 +163,6 @@ public class GameTest {
 
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
-		
-
-		
-		
 		System.out.println(n);
 		for (int i = 0; i < n; i++) {
 			System.out.println(hands.get(i).toString() + ", rank: " + hands.get(i).getHandRanking().name());
@@ -180,8 +171,8 @@ public class GameTest {
 		Game game = new Game(stream);
 		game.queryNumPlayers();
 		game.queryPlayerHands();
-		for(int i=0;i<game.getNumPlayers();i++) {
-			System.out.print(game.getHands().get(i).getID());	
+		for (int i = 0; i < game.getNumPlayers(); i++) {
+			System.out.print(game.getHands().get(i).getID());
 		}
 		System.out.println();
 		game.printRanking();

@@ -12,7 +12,6 @@ public class Game {
 	Scanner scanner;
 	int numPlayers;
 	List<Hand> hands;
-	
 
 	public Game(InputStream stream) {
 		scanner = new Scanner(stream);
@@ -113,61 +112,59 @@ public class Game {
 		return numPlayers;
 	}
 
-	public HashMap<Integer,ArrayList<Hand>> getRanking() {
-		if(numPlayers < 2)
+	public HashMap<Integer, ArrayList<Hand>> getRanking() {
+		if (numPlayers < 2)
 			return null;
-		if(hands == null)
+		if (hands == null)
 			return null;
-		if(hands.size() != numPlayers)
+		if (hands.size() != numPlayers)
 			return null;
 
 		int[] ranking = new int[numPlayers];
-		
+
 		List<Hand> handsCopy = new ArrayList<Hand>(hands);
 
-		
-		HashMap<Integer, ArrayList<Hand>> rankMap = new HashMap<Integer,ArrayList<Hand>>();
-		for(int i=1;i<=numPlayers;i++) {
+		HashMap<Integer, ArrayList<Hand>> rankMap = new HashMap<Integer, ArrayList<Hand>>();
+		for (int i = 1; i <= numPlayers; i++) {
 			rankMap.put(i, new ArrayList<Hand>());
 		}
-		
-		
+
 		Hand maxHand;
 		int tmpNum = numPlayers;
-		
-		for(int j=0;j<tmpNum;j++) {
+
+		for (int j = 0; j < tmpNum; j++) {
 			maxHand = handsCopy.get(0);
-			for(int i=0;i<handsCopy.size();i++) {
-				if(maxHand.compareTo(handsCopy.get(i)) == -1) {
-					maxHand = handsCopy.get(i);		 
+			for (int i = 0; i < handsCopy.size(); i++) {
+				if (maxHand.compareTo(handsCopy.get(i)) == -1) {
+					maxHand = handsCopy.get(i);
 				}
 			}
-			
+
 			handsCopy.remove(maxHand);
-			for(int i=0;i<handsCopy.size();i++){
-				if(maxHand.compareTo(handsCopy.get(i)) == 0) {
-					rankMap.get(j+1).add(handsCopy.get(i));
+			for (int i = 0; i < handsCopy.size(); i++) {
+				if (maxHand.compareTo(handsCopy.get(i)) == 0) {
+					rankMap.get(j + 1).add(handsCopy.get(i));
 					handsCopy.remove(handsCopy.get(i));
 					i--;
 					tmpNum--;
 				}
 			}
-			rankMap.get(j+1).add(maxHand);
+			rankMap.get(j + 1).add(maxHand);
 		}
 		return rankMap;
 	}
 
 	public void printRanking() {
-		HashMap<Integer,ArrayList<Hand>> rankMap = getRanking();
-		
-		System.out.println("SIZE: "+rankMap.size());
-		
-		for(int i: rankMap.keySet()) {
-			System.out.println("Key: " + i + " , Value: "+ rankMap.get(i));
+		HashMap<Integer, ArrayList<Hand>> rankMap = getRanking();
+
+		System.out.println("SIZE: " + rankMap.size());
+
+		for (int i : rankMap.keySet()) {
+			System.out.println("Key: " + i + " , Value: " + rankMap.get(i));
 		}
-		
-		for(int i:rankMap.keySet()) {
-			for(Hand h: rankMap.get(i)) {
+
+		for (int i : rankMap.keySet()) {
+			for (Hand h : rankMap.get(i)) {
 				System.out.println("Rank " + i + ": " + h.toString());
 			}
 		}
