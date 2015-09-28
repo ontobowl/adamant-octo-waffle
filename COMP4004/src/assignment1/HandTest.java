@@ -15,17 +15,13 @@ public class HandTest {
 
 	@Test
 	public void testNumCards() {
-		Hand aHand = new Hand();
 
 		List<Card> deck = makeDeck();
 		Card tmpCard;
 
-		aHand.setID(1);
-		for (int i = 0; i < 5; i++) {
-			assertFalse(aHand.isComplete());
-			tmpCard = deck.remove(0);
-			aHand.addCard(tmpCard.getRank(), tmpCard.getSuit());
-		}
+		Hand aHand = new Hand(1 + " " + deck.remove(0) + " " + deck.remove(0) + " " + deck.remove(0) + " "
+				+ deck.remove(0) + " " + deck.remove(0));
+
 		assertTrue(aHand.isComplete());
 
 		try {
@@ -50,11 +46,23 @@ public class HandTest {
 	@Test
 	public void testInvalidID() { // fails if player ID is not in the range
 									// [1,4]
-		Hand highHand = new Hand();
-		Hand lowHand = new Hand();
+		Boolean thrown1 = false;
+		Boolean thrown2 = false;
 
-		assertFalse(highHand.setID(6));
-		assertFalse(lowHand.setID(0));
+		try {
+			new Hand("5 TenHearts JackHearts QueenHearts KingHearts AceHearts");
+		} catch (IllegalArgumentException e) {
+			thrown1 = true;
+		}
+
+		try {
+			new Hand("0 TenHearts JackHearts QueenHearts KingHearts AceHearts");
+		} catch (IllegalArgumentException e) {
+			thrown2 = true;
+		}
+
+		assertTrue(thrown1);
+		assertTrue(thrown2);
 	}
 
 	@Test
@@ -112,8 +120,8 @@ public class HandTest {
 		assertEquals(1, royalFlushHand1.compareTo(flushHand1));
 		assertEquals(1, threeOfAKindHand1.compareTo(onePairHand1));
 
-		//
-
+		
+		
 		List<Card> deck = makeDeck();
 		int n = 2;
 
@@ -148,7 +156,7 @@ public class HandTest {
 
 			for (int i = 0; i < 4; i++) {
 				for (int j = i + 1; j < 5; j++) {
-					if (sortedCards.get(i).getRank().ordinal() > sortedCards.get(j).getRank().ordinal()) {
+					if (sortedCards.get(i).getRank().rank > sortedCards.get(j).getRank().rank) {
 						tmpCard = sortedCards.get(i);
 						sortedCards.set(i, sortedCards.get(j));
 						sortedCards.set(j, tmpCard);
@@ -166,43 +174,24 @@ public class HandTest {
 		}
 
 		Game game = new Game(stream);
-		game.queryNumPlayers();
-		game.queryPlayerHands();
+		game.play();
 		for (int i = 0; i < game.getNumPlayers(); i++) {
 			System.out.print(game.getRanking().get(i + 1));
 		}
 		System.out.println();
 		System.out.println(hands.get(0).compareTo(hands.get(1)));
 
-
-
 	}
 
 	@Test
 	public void testHandToString() {
-		Hand aHand = new Hand();
-
-		aHand.setID(2);
-
-		aHand.addCard(Card.Rank.TWO, Card.Suit.HEARTS);
-		aHand.addCard(Card.Rank.FIVE, Card.Suit.CLUBS);
-		aHand.addCard(Card.Rank.KING, Card.Suit.SPADES);
-		aHand.addCard(Card.Rank.THREE, Card.Suit.CLUBS);
-		aHand.addCard(Card.Rank.TEN, Card.Suit.DIAMONDS);
-
+		Hand aHand = new Hand("2 TwoHearts FiveClubs KingSpades ThreeClubs TenDiamonds");
 		assertEquals("2 TwoHearts FiveClubs KingSpades ThreeClubs TenDiamonds", aHand.toString());
 	}
 
 	@Test
 	public void testParseHand() {
-		Hand aHand = new Hand();
-
-		aHand.setID(3);
-		aHand.addCard(Card.Rank.TWO, Card.Suit.HEARTS);
-		aHand.addCard(Card.Rank.FIVE, Card.Suit.CLUBS);
-		aHand.addCard(Card.Rank.KING, Card.Suit.SPADES);
-		aHand.addCard(Card.Rank.THREE, Card.Suit.CLUBS);
-		aHand.addCard(Card.Rank.TEN, Card.Suit.DIAMONDS);
+		Hand aHand = new Hand("3 TwoHearts FiveClubs KingSpades ThreeClubs TenDiamonds");
 
 		assertEquals(3, aHand.getID());
 		assertEquals("TwoHearts", aHand.getCard1().toString());

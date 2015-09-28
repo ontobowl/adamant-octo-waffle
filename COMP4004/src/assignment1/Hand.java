@@ -7,16 +7,23 @@ import assignment1.Card.Rank;
 import assignment1.Card.Suit;
 
 public class Hand {
+	//Represents both the player and all of their cards
 
 	public enum PokerRank {
-		HIGHHAND, ONEPAIR, TWOPAIR, THREEOFAKIND, STRAIGHT, FLUSH, FULLHOUSE, FOUROFAKIND, STRAIGHTFLUSH, ROYALFLUSH
+		HIGHHAND(1), ONEPAIR(2), TWOPAIR(3), THREEOFAKIND(4), STRAIGHT(5), FLUSH(6), FULLHOUSE(7), FOUROFAKIND(8), STRAIGHTFLUSH(9), ROYALFLUSH(10);
+		
+		public int rank;
+		
+		private PokerRank(int r) {
+			rank = r;
+		}
 	}
 
 	private int id; // player ID
 	private List<Card> cards = new ArrayList<Card>(); // cards in the hand
 
-	public Hand() {
-	}
+//	public Hand() {
+//	}
 
 	// Takes an ID and five Cards
 	public Hand(String h) throws IllegalArgumentException {
@@ -29,7 +36,10 @@ public class Hand {
 		if (tokens.length != 6)
 			throw new IllegalArgumentException();
 
-		id = Integer.parseInt(tokens[0]);
+		id = Integer.parseInt(tokens[0]) ;
+		if(id < 1 || id > 4)
+			throw new IllegalArgumentException();
+		
 		// Fails if any Card is invalid or a duplicate
 		if (!addCard(Card.parseCardFromString(tokens[1]).getRank(), Card.parseCardFromString(tokens[1]).getSuit())
 				|| !addCard(Card.parseCardFromString(tokens[2]).getRank(),
@@ -102,7 +112,7 @@ public class Hand {
 		Card tmpCard;
 		for (int i = 0; i < 4; i++) {
 			for (int j = i + 1; j < 5; j++) {
-				if (sortedCards1.get(i).getRank().ordinal() > sortedCards1.get(j).getRank().ordinal()) {
+				if (sortedCards1.get(i).getRank().rank > sortedCards1.get(j).getRank().rank) {
 					tmpCard = sortedCards1.get(i);
 					sortedCards1.set(i, sortedCards1.get(j));
 					sortedCards1.set(j, tmpCard);
@@ -119,7 +129,7 @@ public class Hand {
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = i + 1; j < 5; j++) {
-				if (sortedCards2.get(i).getRank().ordinal() > sortedCards2.get(j).getRank().ordinal()) {
+				if (sortedCards2.get(i).getRank().rank > sortedCards2.get(j).getRank().rank) {
 					tmpCard = sortedCards2.get(i);
 					sortedCards2.set(i, sortedCards2.get(j));
 					sortedCards2.set(j, tmpCard);
@@ -131,9 +141,9 @@ public class Hand {
 		PokerRank pRank1 = getHandRanking();
 		PokerRank pRank2 = h.getHandRanking();
 
-		if (pRank1.ordinal() < pRank2.ordinal())
+		if (pRank1.rank < pRank2.rank)
 			return -1;
-		if (pRank1.ordinal() > pRank2.ordinal())
+		if (pRank1.rank > pRank2.rank)
 			return 1;
 
 		Card highCard1 = sortedCards1.get(4);
@@ -146,9 +156,9 @@ public class Hand {
 		case ROYALFLUSH:
 			return 0;
 		case STRAIGHTFLUSH:
-			if (highCard1.getRank().ordinal() > highCard2.getRank().ordinal())
+			if (highCard1.getRank().rank > highCard2.getRank().rank)
 				return 1;
-			else if (highCard1.getRank().ordinal() < highCard2.getRank().ordinal())
+			else if (highCard1.getRank().rank < highCard2.getRank().rank)
 				return -1;
 			else
 				return 0;
@@ -174,14 +184,14 @@ public class Hand {
 				kicker2 = sortedCards2.get(0);
 			}
 
-			if (nonKicker1.getRank().ordinal() > nonKicker2.getRank().ordinal()) {
+			if (nonKicker1.getRank().rank > nonKicker2.getRank().rank) {
 				return 1;
-			} else if (nonKicker1.getRank().ordinal() < nonKicker2.getRank().ordinal()) {
+			} else if (nonKicker1.getRank().rank < nonKicker2.getRank().rank) {
 				return -1;
 			} else {
-				if (kicker1.getRank().ordinal() > kicker2.getRank().ordinal()) {
+				if (kicker1.getRank().rank > kicker2.getRank().rank) {
 					return 1;
-				} else if (kicker1.getRank().ordinal() < kicker2.getRank().ordinal()) {
+				} else if (kicker1.getRank().rank < kicker2.getRank().rank) {
 					return -1;
 				} else {
 					return 0;
@@ -189,16 +199,16 @@ public class Hand {
 			}
 
 		case FULLHOUSE:
-			if (sortedCards1.get(2).getRank().ordinal() > sortedCards2.get(2).getRank().ordinal())
+			if (sortedCards1.get(2).getRank().rank > sortedCards2.get(2).getRank().rank)
 				return 1;
-			else if (sortedCards1.get(2).getRank().ordinal() < sortedCards2.get(2).getRank().ordinal())
+			else if (sortedCards1.get(2).getRank().rank < sortedCards2.get(2).getRank().rank)
 				return -1;
 			else {
-				if (sortedCards1.get(0).getRank().ordinal() > sortedCards2.get(0).getRank().ordinal()
-						|| sortedCards1.get(4).getRank().ordinal() > sortedCards2.get(4).getRank().ordinal()) {
+				if (sortedCards1.get(0).getRank().rank > sortedCards2.get(0).getRank().rank
+						|| sortedCards1.get(4).getRank().rank > sortedCards2.get(4).getRank().rank) {
 					return 1;
-				} else if (sortedCards1.get(0).getRank().ordinal() < sortedCards2.get(0).getRank().ordinal()
-						|| sortedCards1.get(4).getRank().ordinal() < sortedCards2.get(4).getRank().ordinal()) {
+				} else if (sortedCards1.get(0).getRank().rank < sortedCards2.get(0).getRank().rank
+						|| sortedCards1.get(4).getRank().rank < sortedCards2.get(4).getRank().rank) {
 					return -1;
 				} else
 					return 0;
@@ -213,7 +223,7 @@ public class Hand {
 			int rankDiff;
 
 			for (int i = 4; i >= 0; i--) {
-				rankDiff = sortedCards1.get(i).getRank().ordinal() - sortedCards2.get(i).getRank().ordinal();
+				rankDiff = sortedCards1.get(i).getRank().rank - sortedCards2.get(i).getRank().rank;
 				if (rankDiff > 0)
 					return 1;
 				else if (rankDiff < 0)
@@ -224,27 +234,27 @@ public class Hand {
 		case STRAIGHT:
 			// following the assumption that aces are only high and not high/low
 
-			if (sortedCards1.get(4).getRank().ordinal() > sortedCards2.get(4).getRank().ordinal())
+			if (sortedCards1.get(4).getRank().rank > sortedCards2.get(4).getRank().rank)
 				return 1;
-			else if (sortedCards1.get(4).getRank().ordinal() < sortedCards2.get(4).getRank().ordinal())
+			else if (sortedCards1.get(4).getRank().rank < sortedCards2.get(4).getRank().rank)
 				return -1;
 			else
 				return 0;
 
 		case THREEOFAKIND:
-			if (sortedCards1.get(4).getRank().ordinal() > sortedCards2.get(4).getRank().ordinal())
+			if (sortedCards1.get(4).getRank().rank > sortedCards2.get(4).getRank().rank)
 				return 1;
-			else if (sortedCards1.get(4).getRank().ordinal() < sortedCards2.get(4).getRank().ordinal())
+			else if (sortedCards1.get(4).getRank().rank < sortedCards2.get(4).getRank().rank)
 				return -1;
 			else {
-				if (sortedCards1.get(1).getRank().ordinal() > sortedCards2.get(1).getRank().ordinal())
+				if (sortedCards1.get(1).getRank().rank > sortedCards2.get(1).getRank().rank)
 					return 1;
-				else if (sortedCards1.get(1).getRank().ordinal() < sortedCards2.get(1).getRank().ordinal())
+				else if (sortedCards1.get(1).getRank().rank < sortedCards2.get(1).getRank().rank)
 					return -1;
 				else {
-					if (sortedCards1.get(0).getRank().ordinal() > sortedCards2.get(0).getRank().ordinal())
+					if (sortedCards1.get(0).getRank().rank > sortedCards2.get(0).getRank().rank)
 						return 1;
-					else if (sortedCards1.get(0).getRank().ordinal() < sortedCards2.get(0).getRank().ordinal())
+					else if (sortedCards1.get(0).getRank().rank < sortedCards2.get(0).getRank().rank)
 						return -1;
 					else
 						return 0;
@@ -289,19 +299,19 @@ public class Hand {
 				lowPair2 = sortedCards2.get(0);
 			}
 
-			if (highPair1.getRank().ordinal() > highPair2.getRank().ordinal())
+			if (highPair1.getRank().rank > highPair2.getRank().rank)
 				return 1;
-			else if (highPair1.getRank().ordinal() < highPair2.getRank().ordinal())
+			else if (highPair1.getRank().rank < highPair2.getRank().rank)
 				return -1;
 			else {
-				if (lowPair1.getRank().ordinal() > lowPair2.getRank().ordinal())
+				if (lowPair1.getRank().rank > lowPair2.getRank().rank)
 					return 1;
-				else if (lowPair1.getRank().ordinal() < lowPair2.getRank().ordinal())
+				else if (lowPair1.getRank().rank < lowPair2.getRank().rank)
 					return -1;
 				else {
-					if (kicker1.getRank().ordinal() > kicker2.getRank().ordinal())
+					if (kicker1.getRank().rank > kicker2.getRank().rank)
 						return 1;
-					else if (kicker1.getRank().ordinal() < kicker2.getRank().ordinal())
+					else if (kicker1.getRank().rank < kicker2.getRank().rank)
 						return -1;
 					else
 						return 0;
@@ -316,24 +326,24 @@ public class Hand {
 				if (sortedCards2.get(i).getRank() == sortedCards2.get(i + 1).getRank())
 					highPair2 = sortedCards2.get(i);
 			}
-			if (highPair1.getRank().ordinal() > highPair2.getRank().ordinal())
+			if (highPair1.getRank().rank > highPair2.getRank().rank)
 				return 1;
-			else if (highPair1.getRank().ordinal() < highPair2.getRank().ordinal())
+			else if (highPair1.getRank().rank < highPair2.getRank().rank)
 				return -1;
 			else {
 				for (int i = 4; i >= 0; i--) {
-					if (sortedCards1.get(i).getRank().ordinal() > sortedCards2.get(i).getRank().ordinal())
+					if (sortedCards1.get(i).getRank().rank > sortedCards2.get(i).getRank().rank)
 						return 1;
-					else if (sortedCards1.get(i).getRank().ordinal() > sortedCards2.get(i).getRank().ordinal())
+					else if (sortedCards1.get(i).getRank().rank > sortedCards2.get(i).getRank().rank)
 						return -1;
 				}
 				return 0;
 			}
 		case HIGHHAND:
 			for (int i = 4; i >= 0; i--) {
-				if (sortedCards1.get(i).getRank().ordinal() > sortedCards2.get(i).getRank().ordinal())
+				if (sortedCards1.get(i).getRank().rank > sortedCards2.get(i).getRank().rank)
 					return 1;
-				else if (sortedCards1.get(i).getRank().ordinal() < sortedCards2.get(i).getRank().ordinal())
+				else if (sortedCards1.get(i).getRank().rank < sortedCards2.get(i).getRank().rank)
 					return -1;
 			}
 			return 0;
@@ -356,7 +366,7 @@ public class Hand {
 		Card tmpCard;
 		for (int i = 0; i < 4; i++) {
 			for (int j = i + 1; j < 5; j++) {
-				if (sortedCards.get(i).getRank().ordinal() > sortedCards.get(j).getRank().ordinal()) {
+				if (sortedCards.get(i).getRank().rank > sortedCards.get(j).getRank().rank) {
 					tmpCard = sortedCards.get(i);
 					sortedCards.set(i, sortedCards.get(j));
 					sortedCards.set(j, tmpCard);
@@ -376,11 +386,11 @@ public class Hand {
 			return PokerRank.ROYALFLUSH;
 
 		// check straight flush
-		int lowestRank = sortedCards.get(0).getRank().ordinal();
-		if ((sortedCards.get(1).getRank().ordinal() == lowestRank + 1
-				&& sortedCards.get(2).getRank().ordinal() == lowestRank + 2
-				&& sortedCards.get(3).getRank().ordinal() == lowestRank + 3
-				&& sortedCards.get(4).getRank().ordinal() == lowestRank + 4)
+		int lowestRank = sortedCards.get(0).getRank().rank;
+		if ((sortedCards.get(1).getRank().rank == lowestRank + 1
+				&& sortedCards.get(2).getRank().rank == lowestRank + 2
+				&& sortedCards.get(3).getRank().rank == lowestRank + 3
+				&& sortedCards.get(4).getRank().rank == lowestRank + 4)
 				&& sortedCards.get(0).getSuit() == sortedCards.get(1).getSuit()
 				&& sortedCards.get(1).getSuit() == sortedCards.get(2).getSuit()
 				&& sortedCards.get(2).getSuit() == sortedCards.get(3).getSuit()
@@ -417,10 +427,10 @@ public class Hand {
 			return PokerRank.FLUSH;
 
 		// check straight
-		if (sortedCards.get(1).getRank().ordinal() == lowestRank + 1
-				&& sortedCards.get(2).getRank().ordinal() == lowestRank + 2
-				&& sortedCards.get(3).getRank().ordinal() == lowestRank + 3
-				&& sortedCards.get(4).getRank().ordinal() == lowestRank + 4)
+		if (sortedCards.get(1).getRank().rank == lowestRank + 1
+				&& sortedCards.get(2).getRank().rank == lowestRank + 2
+				&& sortedCards.get(3).getRank().rank == lowestRank + 3
+				&& sortedCards.get(4).getRank().rank == lowestRank + 4)
 			return PokerRank.STRAIGHT;
 
 		// check three of a kind

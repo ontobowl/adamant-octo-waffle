@@ -17,6 +17,7 @@ public class GameTest {
 
 	@Test
 	public void testValidNumPlayers() {
+		//Tests to see that the Game will only accept 2-4 players
 		String input = "2\n3\n4\n1\n5\n3";
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
@@ -33,17 +34,15 @@ public class GameTest {
 
 	@Test
 	public void testInputPlayerHand() {
-
-		System.out.println("testInputPlayerHand");
+		//Tests to see that a Game will accept a valid player hand
+		System.out.println("In testInputPlayerHand");
+		
 		String input = "2\n" + "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
 				+ "2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds";
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
 		Game game = new Game(stream);
-		game.queryNumPlayers();
-		game.queryPlayerHands();
-
-		System.out.println(game.getHands().size());
+		game.play();
 
 		assertEquals("1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs", game.getHands().get(0).toString());
 		assertEquals("2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds", game.getHands().get(1).toString());
@@ -52,7 +51,8 @@ public class GameTest {
 
 	@Test
 	public void testInvalidPlayerHand() {
-		System.out.println("testInvalidPlayerHand");
+		//Tests to see that a Game will deny invalid play hands until it receives a valid one
+		System.out.println("In testInvalidPlayerHand");
 
 		String input = "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n" + "5\n2\n"
 				+ "0 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
@@ -73,6 +73,7 @@ public class GameTest {
 
 	@Test
 	public void testDuplicateCards() {
+		//Tests to see that the Game will deny any duplicate cards, both in the same hand and across multiple hands
 		String input = "2\n" + "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
 				+ "2 AceClubs KingDiamonds AceHearts FourClubs ThreeDiamonds\n"
 				+ "3 QueenDiamonds KingDiamonds TenDiamonds JackDiamonds AceDiamonds\n"
@@ -91,7 +92,8 @@ public class GameTest {
 
 	@Test
 	public void testGetRanking() {
-
+		//Tests to see that the Game will rank hands correctly
+		
 		String input = "2\n" + "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
 				+ "2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds";
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
@@ -102,17 +104,13 @@ public class GameTest {
 		assertNull(game.getRanking());
 		game.queryPlayerHands();
 
-		game.getRanking();
-		game.getRanking().get(1);
-		System.out.println("HERRRRRRE" + game.getRanking());
-
-		System.out.println("HERRRRRRE" + game.getRanking().get(1));
-		assertEquals(1, (int) (game.getRanking().get(1).get(0).getID()));
-		assertEquals(2, (int) (game.getRanking().get(2).get(0).getID()));
+		assertEquals(1, game.getRanking().get(1).get(0).getID());
+		assertEquals(2, game.getRanking().get(2).get(0).getID());
 	}
 
 	@Test
 	public void testGameRound() {
+		//Tests a single game round
 		InputStream stream = getRandomGameInput();
 
 		Game game = new Game(stream);
@@ -126,6 +124,8 @@ public class GameTest {
 	
 	@Test
 	public void testMultipleRounds() {
+		//Tests multiple game rounds
+		
 		InputStream stream = getRandomGameInput();
 
 		Game game = new Game(stream);
@@ -146,6 +146,7 @@ public class GameTest {
 	 * @return
 	 */
 	private InputStream getRandomGameInput() {
+		//Returns a random, valid input for a single game (number of players, and 2-4 hands)
 		Random rand = new Random();
 		List<Card> deck = makeDeck();
 		int n = rand.nextInt(3) + 2;
@@ -181,7 +182,7 @@ public class GameTest {
 
 			for (int i = 0; i < 4; i++) {
 				for (int j = i + 1; j < 5; j++) {
-					if (sortedCards.get(i).getRank().ordinal() > sortedCards.get(j).getRank().ordinal()) {
+					if (sortedCards.get(i).getRank().rank > sortedCards.get(j).getRank().rank) {
 						tmpCard = sortedCards.get(i);
 						sortedCards.set(i, sortedCards.get(j));
 						sortedCards.set(j, tmpCard);

@@ -120,8 +120,6 @@ public class Game {
 		if (hands.size() != numPlayers)
 			return null;
 
-//		int[] ranking = new int[numPlayers];
-
 		List<Hand> handsCopy = new ArrayList<Hand>(hands);
 
 		HashMap<Integer, ArrayList<Hand>> rankMap = new HashMap<Integer, ArrayList<Hand>>();
@@ -143,11 +141,6 @@ public class Game {
 			handsCopy.remove(maxHand);
 			for (int i = 0; i < handsCopy.size(); i++) {
 				if (maxHand.compareTo(handsCopy.get(i)) == 0) {
-					System.out.println("EQUAL HANDS:");
-					System.out.println(maxHand.toString());
-					System.out.println(handsCopy.get(i).toString());
-					System.out.println("END EQUAL HANDS");
-					
 					rankMap.get(j + 1).add(handsCopy.get(i));
 					handsCopy.remove(handsCopy.get(i));
 					i--;
@@ -162,17 +155,24 @@ public class Game {
 	public void printRanking() {
 		HashMap<Integer, ArrayList<Hand>> rankMap = getRanking();
 
-		System.out.println("SIZE: " + rankMap.size());
-
-		for (int i : rankMap.keySet()) {
-			System.out.println("Key: " + i + " , Value: " + rankMap.get(i));
-		}
-
 		for (int i : rankMap.keySet()) {
 			for (Hand h : rankMap.get(i)) {
 				System.out.println("Rank " + i + ": " + h.toString());
 			}
 		}
-		System.out.println("FINISH");
+	}
+
+	public void play() {
+		//plays a single game round
+		queryNumPlayers();
+		queryPlayerHands();
+		printRanking();
+	}
+
+	public void reset() {
+		//resets all attributes of Game
+		numPlayers=0;
+		hands=null;
+		scanner=null;
 	}
 }

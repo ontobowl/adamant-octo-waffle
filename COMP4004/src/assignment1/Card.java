@@ -1,6 +1,7 @@
 package assignment1;
 
 public class Card {
+	//Cards are compared by the rank attribute
 	public enum Rank {
 		TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7), EIGHT(8), NINE(9), TEN(10), JACK(11), QUEEN(12), KING(
 				13), ACE(14);
@@ -39,6 +40,7 @@ public class Card {
 	}
 
 	public boolean equals(Object o) {
+		//Two Cards are equal if they have the same rank and suit
 		Card c = (Card) o;
 		if (o instanceof Card) {
 			if (this.rank == c.getRank() && this.suit == c.getSuit())
@@ -50,6 +52,7 @@ public class Card {
 	}
 
 	public static Card parseCardFromString(String s) {
+		//Parses a card from a string in the format RankSuit
 		if (!Character.isUpperCase(s.charAt(0)))
 			return null;
 

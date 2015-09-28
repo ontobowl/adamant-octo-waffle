@@ -35,7 +35,7 @@ public class CardTest {
 				cards.add(new Card(r, s));
 			}
 		}
-		assert(true); // all cards were constructed
+		assert(cards.size() == 52); // all cards were constructed
 	}
 
 	@Test
