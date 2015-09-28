@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 import org.junit.Test;
 
@@ -112,17 +113,33 @@ public class GameTest {
 
 	@Test
 	public void testGameRound() {
-
 		InputStream stream = getRandomGameInput();
 
 		Game game = new Game(stream);
-		game.queryNumPlayers();
-		game.queryPlayerHands();
-		for (int i = 0; i < game.getNumPlayers(); i++) {
-			System.out.print(game.getHands().get(i).getID());
+		try{
+			game.play();
+			game.reset();
+		} catch(Exception e) {
+			fail();
 		}
-		System.out.println();
-		game.printRanking();
+	}
+	
+	@Test
+	public void testMultipleRounds() {
+		InputStream stream = getRandomGameInput();
+
+		Game game = new Game(stream);
+		try{	
+			game.play();
+			game.reset();
+			game.scanner = new Scanner(getRandomGameInput());
+			
+			game.play();
+			game.reset();
+			game.scanner = new Scanner(getRandomGameInput());
+		} catch(Exception e) {
+			fail();
+		}
 	}
 
 	/**
@@ -177,7 +194,6 @@ public class GameTest {
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 		return stream;
 	}
-
 
 	private static List<Card> makeDeck() {
 		List<Card> cards = new ArrayList<Card>();
