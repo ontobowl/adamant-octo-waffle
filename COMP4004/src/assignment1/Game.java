@@ -1,7 +1,9 @@
 package assignment1;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -111,7 +113,7 @@ public class Game {
 		return numPlayers;
 	}
 
-	public int[] getRanking() {
+	public HashMap<Integer,ArrayList<Hand>> getRanking() {
 		if(numPlayers < 2)
 			return null;
 		if(hands == null)
@@ -122,51 +124,53 @@ public class Game {
 		int[] ranking = new int[numPlayers];
 		
 		List<Hand> handsCopy = new ArrayList<Hand>(hands);
-		Hand tmpHand;
-		for(int i=0;i<handsCopy.size()-1;i++) {
-			for(int j=0;j<handsCopy.size();j++) {
-				if(handsCopy.get(i).compareTo(handsCopy.get(j)) == 1) {
-					
-				} else if(handsCopy.get(i).compareTo(handsCopy.get(j)) == -1) {
-					tmpHand = handsCopy.get(i);
-					handsCopy.set(i,handsCopy.get(j));
-					handsCopy.set(j,tmpHand);
-				} else if(handsCopy.get(i).compareTo(handsCopy.get(j)) == 0) {
-					
-				}
-			}
+
+		
+		HashMap<Integer, ArrayList<Hand>> rankMap = new HashMap<Integer,ArrayList<Hand>>();
+		for(int i=1;i<=numPlayers;i++) {
+			rankMap.put(i, new ArrayList<Hand>());
 		}
 		
-		for(int i=0;i<numPlayers;i++) {
-			ranking[handsCopy.get(i).getID() - 1] = i+1;
+		
+		Hand maxHand;
+		int tmpNum = numPlayers;
+		
+		for(int j=0;j<tmpNum;j++) {
+			maxHand = handsCopy.get(0);
+			for(int i=0;i<handsCopy.size();i++) {
+				if(maxHand.compareTo(handsCopy.get(i)) == -1) {
+					maxHand = handsCopy.get(i);		 
+				}
+			}
+			
+			handsCopy.remove(maxHand);
+			for(int i=0;i<handsCopy.size();i++){
+				if(maxHand.compareTo(handsCopy.get(i)) == 0) {
+					rankMap.get(j+1).add(handsCopy.get(i));
+					handsCopy.remove(handsCopy.get(i));
+					i--;
+					tmpNum--;
+				}
+			}
+			rankMap.get(j+1).add(maxHand);
 		}
-		for(int i=1;i<numPlayers;i++) {
-			if(handsCopy.get(i-1).compareTo(handsCopy.get(i)) == 0) {
-				ranking[handsCopy.get(i).getID() - 1] = ranking[handsCopy.get(i-1).getID() - 1]; 
+		return rankMap;
+	}
+
+	public void printRanking() {
+		HashMap<Integer,ArrayList<Hand>> rankMap = getRanking();
+		
+		System.out.println("SIZE: "+rankMap.size());
+		
+		for(int i: rankMap.keySet()) {
+			System.out.println("Key: " + i + " , Value: "+ rankMap.get(i));
+		}
+		
+		for(int i:rankMap.keySet()) {
+			for(Hand h: rankMap.get(i)) {
+				System.out.println("Rank " + i + ": " + h.toString());
 			}
 		}
-
-		System.out.println("Rankings: ");
-		for(int i=0;i<numPlayers;i++) {
-			System.out.print(ranking[i]);
-		}
-		System.out.println();
-
-		return ranking;
+		System.out.println("FINISH");
 	}
-
-	public List<Integer> getWinners() {
-		if (getRanking() == null)
-			return null;
-
-		List<Integer> winners = new ArrayList<Integer>();
-		int[] ranking = getRanking();
-		for(int i=0;i<numPlayers;i++) {
-			if(ranking[i] == 1)
-				winners.add(i);
-		}
-		                       
-		return winners;
-	}
-
 }

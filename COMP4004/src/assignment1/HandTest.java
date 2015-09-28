@@ -182,7 +182,7 @@ public class HandTest {
 		game.queryPlayerHands();
 		System.out.println("GAG");
 		for (int i = 0; i < game.getNumPlayers(); i++) {
-			System.out.print(game.getRanking()[i]);
+			System.out.print(game.getRanking().get(i+1));
 		}
 		System.out.println();
 		System.out.println("GAAA");

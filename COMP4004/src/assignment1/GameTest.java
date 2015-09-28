@@ -8,14 +8,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.junit.Test;
 
 public class GameTest {
 
-	// @Test
+	@Test
 	public void testValidNumPlayers() {
 		String input = "2\n3\n4\n1\n5\n3";
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
@@ -31,7 +33,7 @@ public class GameTest {
 		assertEquals(3, game.getNumPlayers());
 	}
 
-	// @Test
+	@Test
 	public void testInputPlayerHand() {
 
 		System.out.println("testInputPlayerHand");
@@ -50,7 +52,7 @@ public class GameTest {
 		assertEquals(2, game.getHands().size());
 	}
 
-	// @Test
+	@Test
 	public void testInvalidPlayerHand() {
 		System.out.println("testInvalidPlayerHand");
 
@@ -71,7 +73,7 @@ public class GameTest {
 		assertEquals(2, game.getHands().size());
 	}
 
-	// @Test
+	@Test
 	public void testDuplicateCards() {
 		String input = "2\n" + "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
 				+ "2 AceClubs KingDiamonds AceHearts FourClubs ThreeDiamonds\n"
@@ -89,21 +91,27 @@ public class GameTest {
 				game.getHands().get(1).toString());
 	}
 
-	// @Test
-	public void testGameWinner() {
+	@Test
+	public void testGetRanking() {
 
 		String input = "2\n" + "1 ThreeClubs FourClubs FiveClubs SixClubs SevenClubs\n"
 				+ "2 AceClubs KingDiamonds AceHearts KingSpades ThreeDiamonds";
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
 		Game game = new Game(stream);
-		assertNull(game.getWinners());
+		assertNull(game.getRanking());
 		game.queryNumPlayers();
-		assertNull(game.getWinners());
+		assertNull(game.getRanking());
 		game.queryPlayerHands();
-		assertEquals(1, game.getRanking()[0]);
-		assertEquals(2, game.getRanking()[0]);
-		assertEquals(1, (int)game.getWinners().get(0));
+			
+		
+		game.getRanking();
+		game.getRanking().get(1);
+		System.out.println("HERRRRRRE" + game.getRanking());
+		
+		System.out.println("HERRRRRRE" + game.getRanking().get(1));
+		assertEquals(1, (int)(game.getRanking().get(1).get(0).getID()));
+		assertEquals(2, (int)(game.getRanking().get(2).get(0).getID()));
 	}
 
 	@Test
@@ -160,7 +168,7 @@ public class GameTest {
 
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
-		// System.out.println(input);
+		
 
 		
 		
@@ -176,17 +184,9 @@ public class GameTest {
 			System.out.print(game.getHands().get(i).getID());	
 		}
 		System.out.println();
+		game.printRanking();
 	}
 
-	@Test
-	public void testMain() {
-		try{
-			main();
-		} catch(Exception e) {
-			fail();
-		}
-	}
-	
 	private static List<Card> makeDeck() {
 		List<Card> cards = new ArrayList<Card>();
 		for (Card.Suit s : Card.Suit.values()) {
