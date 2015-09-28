@@ -113,6 +113,19 @@ public class GameTest {
 	@Test
 	public void testGameRound() {
 
+		InputStream stream = getRandomGameInput();
+
+		Game game = new Game(stream);
+		game.queryNumPlayers();
+		game.queryPlayerHands();
+		for (int i = 0; i < game.getNumPlayers(); i++) {
+			System.out.print(game.getHands().get(i).getID());
+		}
+		System.out.println();
+		game.printRanking();
+	}
+
+	private static InputStream getRandomGameInput() {
 		Random rand = new Random();
 		List<Card> deck = makeDeck();
 		int n = rand.nextInt(3) + 2;
@@ -160,21 +173,9 @@ public class GameTest {
 
 		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
-		System.out.println(n);
-		for (int i = 0; i < n; i++) {
-			System.out.println(hands.get(i).toString() + ", rank: " + hands.get(i).getHandRanking().name());
-		}
-
-		Game game = new Game(stream);
-		game.queryNumPlayers();
-		game.queryPlayerHands();
-		for (int i = 0; i < game.getNumPlayers(); i++) {
-			System.out.print(game.getHands().get(i).getID());
-		}
-		System.out.println();
-		game.printRanking();
+		return stream;
 	}
-
+	
 	private static List<Card> makeDeck() {
 		List<Card> cards = new ArrayList<Card>();
 		for (Card.Suit s : Card.Suit.values()) {
