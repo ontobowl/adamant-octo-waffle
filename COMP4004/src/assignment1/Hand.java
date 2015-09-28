@@ -7,13 +7,14 @@ import assignment1.Card.Rank;
 import assignment1.Card.Suit;
 
 public class Hand {
-	//Represents both the player and all of their cards
+	// Represents both the player and all of their cards
 
 	public enum PokerRank {
-		HIGHHAND(1), ONEPAIR(2), TWOPAIR(3), THREEOFAKIND(4), STRAIGHT(5), FLUSH(6), FULLHOUSE(7), FOUROFAKIND(8), STRAIGHTFLUSH(9), ROYALFLUSH(10);
-		
+		HIGHHAND(1), ONEPAIR(2), TWOPAIR(3), THREEOFAKIND(4), STRAIGHT(5), FLUSH(6), FULLHOUSE(7), FOUROFAKIND(
+				8), STRAIGHTFLUSH(9), ROYALFLUSH(10);
+
 		public int rank;
-		
+
 		private PokerRank(int r) {
 			rank = r;
 		}
@@ -22,8 +23,8 @@ public class Hand {
 	private int id; // player ID
 	private List<Card> cards = new ArrayList<Card>(); // cards in the hand
 
-//	public Hand() {
-//	}
+	// public Hand() {
+	// }
 
 	// Takes an ID and five Cards
 	public Hand(String h) throws IllegalArgumentException {
@@ -36,10 +37,10 @@ public class Hand {
 		if (tokens.length != 6)
 			throw new IllegalArgumentException();
 
-		id = Integer.parseInt(tokens[0]) ;
-		if(id < 1 || id > 4)
+		id = Integer.parseInt(tokens[0]);
+		if (id < 1 || id > 4)
 			throw new IllegalArgumentException();
-		
+
 		// Fails if any Card is invalid or a duplicate
 		if (!addCard(Card.parseCardFromString(tokens[1]).getRank(), Card.parseCardFromString(tokens[1]).getSuit())
 				|| !addCard(Card.parseCardFromString(tokens[2]).getRank(),
@@ -387,8 +388,7 @@ public class Hand {
 
 		// check straight flush
 		int lowestRank = sortedCards.get(0).getRank().rank;
-		if ((sortedCards.get(1).getRank().rank == lowestRank + 1
-				&& sortedCards.get(2).getRank().rank == lowestRank + 2
+		if ((sortedCards.get(1).getRank().rank == lowestRank + 1 && sortedCards.get(2).getRank().rank == lowestRank + 2
 				&& sortedCards.get(3).getRank().rank == lowestRank + 3
 				&& sortedCards.get(4).getRank().rank == lowestRank + 4)
 				&& sortedCards.get(0).getSuit() == sortedCards.get(1).getSuit()
@@ -427,8 +427,7 @@ public class Hand {
 			return PokerRank.FLUSH;
 
 		// check straight
-		if (sortedCards.get(1).getRank().rank == lowestRank + 1
-				&& sortedCards.get(2).getRank().rank == lowestRank + 2
+		if (sortedCards.get(1).getRank().rank == lowestRank + 1 && sortedCards.get(2).getRank().rank == lowestRank + 2
 				&& sortedCards.get(3).getRank().rank == lowestRank + 3
 				&& sortedCards.get(4).getRank().rank == lowestRank + 4)
 			return PokerRank.STRAIGHT;

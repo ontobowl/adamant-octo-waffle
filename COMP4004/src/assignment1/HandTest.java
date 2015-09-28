@@ -175,12 +175,6 @@ public class HandTest {
 
 		Game game = new Game(stream);
 		game.play();
-		for (int i = 0; i < game.getNumPlayers(); i++) {
-			System.out.print(game.getRanking().get(i + 1));
-		}
-		System.out.println();
-		System.out.println(hands.get(0).compareTo(hands.get(1)));
-
 	}
 
 	@Test
